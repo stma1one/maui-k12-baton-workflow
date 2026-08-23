@@ -11,6 +11,10 @@ Reusable agent workflow for .NET MAUI high-school student projects. It prevents 
 ## Included Files
 
 ```text
+LICENSE
+NOTICE
+AUTHORS.md
+CITATION.cff
 README.md
 PACKAGE-MANIFEST.md
 AGENTS.md
@@ -137,6 +141,8 @@ Manual validation should confirm:
 
 ## 1.0.4 Hardening Notes
 
+- Added `LICENSE` (Apache-2.0) and `NOTICE` file with copyright attribution to Tal Simon.
+- Added `AUTHORS.md` and `CITATION.cff` for standardized open-source creator credit and GitHub repository citation.
 - Added `references/student-capability-gates.md` with explicit anti-bypass handling for "continue", "approve", "do it", "I do not know", "teacher said it is fine", and similar responses.
 - Added mastery-aware concept weighting so first exposure to configuration, boilerplate, tests, DI, navigation, and core architecture requires understanding evidence before it can become routine.
 - Changed Student Capability Mode ownership defaults toward student-owned core logic with agent scaffold, hints, review, and guided implementation for difficult code.
@@ -163,4 +169,4 @@ Manual validation should confirm:
 
 ## License
 
-No license file is included. Add one before public distribution if required by your school, district, or organization.
+Licensed under the Apache License, Version 2.0. Copyright 2026 Tal Simon. See `LICENSE` and `NOTICE` for details.

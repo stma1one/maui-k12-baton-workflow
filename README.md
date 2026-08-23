@@ -239,3 +239,13 @@ Before publishing:
 - bypass answers cannot pass concept or ownership gates
 - ownership negotiation happens before execution
 - README install steps still match the folder layout
+
+## Creator & Attribution
+
+Created by **Tal Simon** (2026).
+
+If you use, adapt, or redistribute this package in your school, organization, or project, please preserve the [NOTICE](file:///c:/Users/Owner/source/repos/MauiSkillTester/SkillPackages/maui-k12-baton-workflow/NOTICE) and [LICENSE](file:///c:/Users/Owner/source/repos/MauiSkillTester/SkillPackages/maui-k12-baton-workflow/LICENSE) files and give credit to the original creator.
+
+## License
+
+This package is licensed under the [Apache License 2.0](file:///c:/Users/Owner/source/repos/MauiSkillTester/SkillPackages/maui-k12-baton-workflow/LICENSE). See `LICENSE` and `NOTICE` for full terms.

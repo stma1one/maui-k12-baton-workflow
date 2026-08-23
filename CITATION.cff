@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this agent skill package in your teaching, research, or projects, please cite it as below."
+authors:
+  - family-names: "Simon"
+    given-names: "Tal"
+title: "MAUI K12 Baton Workflow Skill"
+version: 1.0.4
+date-released: 2026-08-20
+url: "https://github.com/talsimon/maui-k12-baton-workflow"
+license: "Apache-2.0"
+abstract: "A portable agent-skill package for teaching high-school students to build .NET MAUI projects through staged planning, concept gates, ownership negotiation, implementation, and learning documentation."
