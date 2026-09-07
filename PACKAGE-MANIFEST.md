@@ -1,14 +1,14 @@
 # Package Manifest
 
 Package: MAUI K12 Baton Workflow Skill
-Version: 1.0.4
+Version: 1.1.0
 Status: ready-to-install
 
 ## Purpose
 
-Reusable agent workflow for .NET MAUI high-school student projects. It prevents coding agents from overwhelming students by splitting feature work into planning, confirmation, concept teaching, ownership negotiation, execution, and verification stages.
+Reusable agent workflow for .NET MAUI high-school student projects. It prevents coding agents from overwhelming students by splitting feature work into planning, confirmation, concept teaching, ownership negotiation, execution, verification stages, and modular UI step-by-step documentation with publication-ready PDF book compilation.
 
-## Included Files
+## Included Files & Companion Skills
 
 ```text
 LICENSE
@@ -22,6 +22,7 @@ CLAUDE.md
 skills/maui-k12-baton-workflow/SKILL.md
 skills/maui-k12-baton-workflow/references/maui-specialist-guardrails.md
 skills/maui-k12-baton-workflow/references/student-capability-gates.md
+companion-skills/maui-step-guide-author/ (Modular Block Strategy UI guides)
 project-template/AGENTS.md
 project-template/.agents/MAUI-Agent-Mode.json
 project-template/.agents/templates/phase-status-template.md
@@ -30,6 +31,9 @@ project-template/Learning/MAUI-Learning-Book.md
 project-template/Learning/Student-Mastery.md
 project-template/Scripts/Audit-DI.ps1
 project-template/Scripts/Audit-DI.sh
+project-template/Scripts/Capture-Mockup-Blocks.py
+project-template/Scripts/Generate-Learning-Book-Pdf.ps1
+project-template/Scripts/Generate-Learning-Book-Pdf.py
 project-template/Scripts/Record-Learning-Change.ps1
 project-template/Scripts/Record-Learning-Change.sh
 project-template/Scripts/Set-Maui-Agent-Mode.ps1
@@ -138,6 +142,15 @@ Manual validation should confirm:
 - install script parses in PowerShell
 - package paths match README instructions
 - no generated project secrets are included
+
+## 1.1.0 Feature Release Notes
+
+- Integrated `maui-step-guide-author` as the official visual UI documentation companion skill.
+- Added automated modular screen breakdown (The Block Strategy) with individual block snapshots (`Learning/Images/<ScreenName>-block<N>.png`) and HTML/CSS mockup pipeline.
+- Added `Generate-Learning-Book-Pdf.py` and `Generate-Learning-Book-Pdf.ps1` for professional, publication-ready PDF book compilation with full Hebrew RTL support, print-safe soft code wrapping, and automatic guide discovery.
+- Added XAML line-breaking standard (`Attribute-per-line indent`) ensuring no clipped code or horizontal scrollbars in PDF/print.
+- Added structured 3-tier thinking framework (Architectural Dilemma, Deep Questions with Clues, Hands-on Mini-Challenge) and formal bibliography appendix.
+- Updated `Setup-Skills.ps1` to automatically deploy scripts and sync companion skills.
 
 ## 1.0.4 Hardening Notes
 

@@ -56,6 +56,17 @@ if ($Target -eq "Project") {
     Copy-Directory (Join-Path $templateRoot ".agents\templates") $projectTemplateDest
     Copy-DirectoryFilesIfMissing (Join-Path $templateRoot "Scripts") $projectScriptsDest
 
+    # Also install companion skill maui-step-guide-author if available
+    $companionSource = Join-Path $packageRoot "companion-skills\maui-step-guide-author\skills\maui-step-guide-author"
+    if (-not (Test-Path $companionSource)) {
+        $companionSource = Join-Path (Split-Path -Parent $packageRoot) "maui-step-guide-author\skills\maui-step-guide-author"
+    }
+    if (Test-Path $companionSource) {
+        $projectCompanionDest = Join-Path $projectAgents "skills\maui-step-guide-author"
+        Copy-Directory $companionSource $projectCompanionDest
+        Write-Host "Installed companion skill: maui-step-guide-author"
+    }
+
     New-Item -ItemType Directory -Force -Path $projectAgents | Out-Null
     Copy-FileIfMissing (Join-Path $templateRoot ".agents\MAUI-Agent-Mode.json") (Join-Path $projectAgents "MAUI-Agent-Mode.json")
 
