@@ -51,6 +51,9 @@ maui-k12-baton-workflow/
 |   |   `-- Student-Mastery.md
 |   `-- Scripts/
 |       |-- Audit-DI.ps1 / .sh
+|       |-- Capture-Mockup-Blocks.py
+|       |-- Generate-Learning-Book-Pdf.ps1
+|       |-- Generate-Learning-Book-Pdf.py
 |       |-- Record-Learning-Change.ps1 / .sh
 |       |-- Set-Maui-Agent-Mode.ps1 / .sh
 |       |-- Setup-Skills.ps1 / .sh
@@ -60,6 +63,8 @@ maui-k12-baton-workflow/
 `-- scripts/
     |-- Install-Skill.ps1
     `-- Install-Skill.sh
+
+Companion Skill: `maui-step-guide-author` for modular screen guides (The Block Strategy), HTML mockup screenshots, and PDF book rendering.
 ```
 
 ## Quick Install Into A MAUI Project
