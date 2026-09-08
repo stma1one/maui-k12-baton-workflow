@@ -1,7 +1,7 @@
 # Package Manifest
 
 Package: MAUI K12 Baton Workflow Skill
-Version: 1.1.0
+Version: 1.1.1
 Status: ready-to-install
 
 ## Purpose
@@ -142,6 +142,15 @@ Manual validation should confirm:
 - install script parses in PowerShell
 - package paths match README instructions
 - no generated project secrets are included
+
+## 1.1.1 Feature Release Notes
+
+- Generalized `maui-step-guide-author` companion skill:
+  - Added Phase 0: Interactive Pedagogical User Intake with 3 guide archetypes (Full 3-Phase Golden Path, Focused Screen Replication, Collections/Master-Detail).
+  - Added Universal Dual-Block Strategy: Symmetrical, modular block breakdown for BOTH XAML Views and C# ViewModels.
+  - Added 7 Generalized Analytical Tables covering Domain Models, VM State, Commands & CanExecute, XAML Element Mapping, Service Contracts, Loading/Feedback States, and Form Validation.
+  - Added Dedicated Data Loading & Feedback section explaining `ActivityIndicator`, `IsLoading`, derived `IsNotLoading`, `CanExecute` guardrails, and mandatory `try-catch-finally` cleanup.
+  - Print-Perfect PDF Layout Standards: Resolved table column clipping with tightened cell padding, soft-wrapping table code, heading orphan prevention (`h1`-`h6`), and `.code-block` `break-inside: auto` to prevent large blank pages.
 
 ## 1.1.0 Feature Release Notes
 

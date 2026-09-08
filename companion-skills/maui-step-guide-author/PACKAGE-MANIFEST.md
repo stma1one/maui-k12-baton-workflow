@@ -1,12 +1,12 @@
 # Package Manifest
 
-Package: MAUI Step Guide Author Skill (Leomaris Reyes Block Strategy)
-Version: 1.0.0
+Package: MAUI Step Guide Author Skill (Universal Block Strategy Pedagogy)
+Version: 1.1.0
 Status: ready-to-install
 
 ## Purpose
 
-Authoring step-by-step .NET MAUI learning guides and UI replications inspired by Leomaris Reyes' (AskXammy) Block Strategy pedagogy. Deconstructs mobile screens into modular XAML/MVVM blocks, pairs them with HTML/browser visual mockups, provides deep-dive concept callouts, and produces bilingual learning guides in Hebrew (with English code identifiers).
+Authoring step-by-step .NET MAUI learning guides and UI replications inspired by Leomaris Reyes' (AskXammy) Block Strategy pedagogy. Features interactive pedagogical user intake, symmetrical dual-block deconstruction (XAML & ViewModel), 7 generalized analytical tables, dedicated data loading feedback (ActivityIndicator), and print-perfect PDF book compilation. Produces bilingual learning guides in Hebrew (with English code identifiers).
 
 ## Included Files
 
@@ -16,6 +16,7 @@ PACKAGE-MANIFEST.md
 skills/maui-step-guide-author/SKILL.md
 skills/maui-step-guide-author/references/guide-template.md
 skills/maui-step-guide-author/references/html-mockup-guide.md
+skills/maui-step-guide-author/scripts/generate_book_pdf.py
 scripts/Install-Skill.ps1
 scripts/Install-Skill.sh
 ```

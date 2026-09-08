@@ -320,6 +320,27 @@ def generate_html_document(combined_md: str, project_info: dict, learning_dir: P
       margin-top: 16px;
       margin-bottom: 8px;
       break-after: avoid;
+      page-break-after: avoid;
+    }}
+
+    h4 {{
+      font-size: 11pt;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      break-after: avoid;
+      page-break-after: avoid;
+    }}
+
+    h5, h6 {{
+      font-size: 10pt;
+      font-weight: 700;
+      color: #334155;
+      margin-top: 12px;
+      margin-bottom: 6px;
+      break-after: avoid;
+      page-break-after: avoid;
     }}
 
     p {{
@@ -359,8 +380,8 @@ def generate_html_document(combined_md: str, project_info: dict, learning_dir: P
       border: 1px solid #cbd5e1;
       border-radius: 8px;
       overflow: hidden;
-      break-inside: avoid;
-      page-break-inside: avoid;
+      break-inside: auto;
+      page-break-inside: auto;
     }}
 
     .code-header {{
@@ -410,26 +431,38 @@ def generate_html_document(combined_md: str, project_info: dict, learning_dir: P
     table {{
       width: 100%;
       border-collapse: collapse;
-      margin: 16px 0;
-      font-size: 10pt;
+      margin: 14px 0;
+      font-size: 8.5pt;
       break-inside: avoid;
       page-break-inside: avoid;
     }}
 
     th, td {{
-      padding: 8px 12px;
+      padding: 6px 7px;
       border: 1px solid var(--border);
       text-align: right;
+      vertical-align: middle;
+      word-break: normal;
+      overflow-wrap: break-word;
     }}
 
     th {{
       background: #f1f5f9;
       font-weight: 700;
       color: #0f172a;
+      font-size: 8.5pt;
+      white-space: nowrap;
     }}
 
     tr:nth-child(even) {{
       background: #f8fafc;
+    }}
+
+    table code {{
+      font-size: 7.5pt;
+      padding: 1px 3px;
+      word-break: break-word;
+      white-space: normal;
     }}
 
     /* Callouts / Alerts */

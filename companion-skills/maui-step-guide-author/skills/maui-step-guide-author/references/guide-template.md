@@ -1,204 +1,237 @@
-# תבנית מדריך שלב-אחר-שלב: שיטת הבלוקים המודולרית
+# תבנית מדריך שלב-אחר-שלב: שיטת הבלוקים המודולרית (The Universal Block Strategy)
 
-מדריך זה משמש כתבנית אחידה ליצירת מדריכי ממשק ו-MVVM ב-`.NET MAUI` עבור תלמידים.
+תבנית זו משמשת כשלד אחיד, מקצועי ומוכלל להפקת מדריכי ממשק ולוגיקה ב-`.NET MAUI` ברמת ספר לימוד.
 שם הקובץ המופק: `Learning/Guides/<ScreenName>-Guide.md`
 
 ---
 
 ```markdown
-# מדריך פיתוח ממשק: <שם המסך / התכונה באנגלית ובעברית>
-> שיטת הבלוקים המודולרית לבניית ממשק משתמש ב-.NET MAUI
+# מדריך פיתוח בשלבים: <שם המסך / התכונה> ב-MVVM למתחילים
+
+> מדריך פדגוגי מודולרי לבניית ממשק משתמש ולוגיקה עסקית ב-.NET MAUI צעד-אחר-צעד, בהשראת מתודולוגיית הבלוקים (The Block Strategy)
 
 ---
 
-## 🎯 1. מבוא והשראה עיצובית: בונים ממשק פרימיום מאפס
-שמתם לב פעם באפליקציות המובילות למסכים עם מראה רענן, כרטיסים צפים ואלמנטים ויזואליים מרשימים? 
-במדריך הזה לא רק נתבונן בעיצוב כזה — אלא נלמד לבנות אותו צעד-אחר-צעד, באופן מודולרי ונקי, ישירות ב-XAML וב-C# ב-.NET MAUI!
+## 🎯 חלק ראשון: מטרת המדריך והסקיצה (Wireframe)
 
-### מטרת המסך והאתגר העיצובי:
-- **מה המסך עושה:** <הסבר תכליתי על תפקיד המסך באפליקציה>
-- **האתגר המרכזי:** <למשל: יצירת כרטיס מרחף מעל תמונת רקע, שימוש בגרדיאנט פנימי ללא תמונות סטטיות, ורשימה דינמית עם גלילה חלקה>
+### 1.1 למי נועד המדריך ומה נבנה בו?
+<הקדמה פדגוגית חמה בגובה העיניים, המציגה את האתגר העיצובי והארכיטקטוני של המסך>
 
-### 📱 מפת הבלוקים של המסך (Visual Block Architecture)
-![דיאגרמת מבנה הבלוקים של המסך](../Images/<ScreenName>-overview.png)
+### 1.2 סקיצת המסך (Screen Wireframe) ומפת הבלוקים
+![סקיצת מסך האפליקציה ומפת הבלוקים](../Images/<ScreenName>-overview.png)
 
----
-
-## 🧭 2. איך המדריך הזה בנוי? (The Meta-Frame)
-כדי שתוכלו להבין כל שורה ולשלוט בממשק ב-100%, נפעל לפי 3 עקרונות ברורים:
-- ➖ **דיאגרמה חזותית מפורקת (Visual Diagram):** המסך מחולק לבלוקים פונקציונליים בצבעים ובשמות מוגדרים.
-- ➖ **קוד מודולרי לפי בלוקים (Code by Block):** נתחיל עם שלד הגריד והערות מקום (`<!-- כאן יבוא הבלוק -->`), ונרכיב כל רכיב בנפרד.
-- ➖ **התקדמות חזותית צעד-אחר-צעד:** לכל בלוק מוצגת תמונת תוצאה ממוקדת כדי לראות את המסך מתעורר לחיים.
-
----
-
-## 🔧 3. הכנת סביבת העבודה ומרחבי שמות (Namespaces)
-לפני שמתחילים בעיצוב, נוודא שכל התלויות ומרחבי השמות מוגדרים בראש קובץ ה-XAML:
-
-```xml
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:<AppNamespace>.ViewModels"
-             xmlns:models="clr-namespace:<AppNamespace>.Models"
-             x:Class="<AppNamespace>.Views.<ScreenName>Page"
-             x:DataType="viewmodels:<ScreenName>ViewModel"
-             Title="<כותרת המסך>"
-             FlowDirection="RightToLeft">
-```
-
----
-
-## 📐 4. אסטרטגיית הבלוקים (The Block Strategy)
-
-### שלב 4.0: שלד הגריד הראשי ומחוון הטעינה (Main Grid Backbone & Loading)
-הגריד הוא עמוד השדרה של המסך. נגדיר שורות ועמודות מדויקות:
-
-```xml
-<Grid RowDefinitions="Auto, *">
-    <!-- מחוון טעינה (ActivityIndicator) -->
-    <ActivityIndicator Grid.Row="0"
-                       IsRunning="{Binding IsLoading}"
-                       IsVisible="{Binding IsLoading}"
-                       Color="{StaticResource Primary}"
-                       HeightRequest="40"
-                       HorizontalOptions="Center" />
-
-    <!-- מיכל הגלילה הראשי -->
-    <ScrollView Grid.Row="1">
-        <VerticalStackLayout Padding="16" Spacing="20">
-            <!-- כותרת ראשית (Hero Header) -->
-            <!-- בלוק 1: ... -->
-            <!-- בלוק 2: ... -->
-        </VerticalStackLayout>
-    </ScrollView>
-</Grid>
-```
-
----
-
-### שלב 4.1: כותרת עליונה ובאנר ראשי (Hero Section)
-
-![באנר עליון](../Images/<ScreenName>-hero.png)
+#### ניתוח מבנה הסקיצה:
+* **בלוק 1:** <תיאור בלוק התצוגה הראשי>
+* **בלוק 2:** <תיאור בלוק המשנה / הטופס / הרשימה>
 
 > [!IMPORTANT]
-> **הנחיית כתיבת קוד (XAML Line-Breaking Standard):** הקפידו לרדת שורה עבור כל תכונה (Attribute-per-line) בכל תגית עם 2 תכונות ומעלה או ביטוי Binding מורכב. הרגל זה מונע גלישת שורות וחיתוך טקסט ב-PDF ומבטיח ספר לימוד קריא ומקצועי.
-
-```xml
-<Border StrokeShape="RoundRectangle 12"
-        BackgroundColor="#1E88E5"
-        Padding="16"
-        StrokeThickness="0">
-    <VerticalStackLayout Spacing="6">
-        <Label Text="<כותרת>"
-               FontSize="22"
-               FontAttributes="Bold"
-               TextColor="White" />
-        <Label Text="<תת כותרת>"
-               FontSize="14"
-               TextColor="#E3F2FD" />
-    </VerticalStackLayout>
-</Border>
-```
+> **החלטה פדגוגית מכרעת (בידוד משתנים):** 
+> אנו לא בונים את כל חלקי המסך בבת אחת! נתחיל אך ורק מבלוק 1 בנתונים מקומיים, נוודא הבנה מלאה, ורק לאחר מכן נתקדם לשכבות הבאות.
 
 ---
 
-### שלב 4.2: בלוק 1 — <שם הבלוק>
-
-![תצוגת בלוק 1](../Images/<ScreenName>-block1.png)
-
-```xml
-<!-- קוד XAML של בלוק 1 -->
-```
-
----
-
-### שלב 4.3: בלוק 2 — <שם הבלוק>
-
-![תצוגת בלוק 2](../Images/<ScreenName>-block2.png)
-
-```xml
-<!-- קוד XAML של בלוק 2 -->
-```
-
----
-
-## ✍️ 5. פינת העמקה והבנה מושגית (Deep-Dive Callouts)
-
+### 🧠 שאלות הבנה ובדיקה עצמית — חלק ראשון
 > [!TIP]
-> ### 🔍 נקודת מפתח ארכיטקטונית
-> <הסבר עמוק ומנומק על רכיב או טכניקה, למשל Border לעומת Frame או שימוש ב-RelativeSource>
->
-> 🔗 תיעוד רשמי: [Microsoft Learn - .NET MAUI](https://learn.microsoft.com/dotnet/maui/)
+> 1. <שאלה מושגית על מטרת המסך והפרדת השכבות>?
+> 2. <שאלה על בידוד משתנים פדגוגי>?
 
 ---
 
-## 🔌 6. ארכיטקטורת MVVM וחיבור נתונים (ViewModel & Commands)
+## 🧭 חלק שני: מתודולוגיית "שביל הזהב" (The Golden Path)
 
-כעת נחבר את הממשק למחלקת ה-ViewModel בהתאם לכללי פיתוח מקצועיים:
+### 2.1 שרשרת הפיתוח הנכונה
+```text
+1. שרטוט סקיצה מהירה על דף (Wireframe)
+                 ↓
+2. הגדרת מודל הנתונים (Model)
+                 ↓
+3. מחשבת ה-ViewModel (מצב ופקודות)
+                 ↓
+4. חיבור ה-BindingContext והלבשת ה-XAML (View)
+                 ↓
+5. בדיקה ראשונית של התצוגה המקומית
+                 ↓
+6. שדרוג לשכבת שירות (Service & Mockup) וחיווי טעינה
+                 ↓
+7. הרחבה: טופס הזנה ועריכה (Two-Way Data Binding)
+```
+
+---
+
+## 🚀 שלב א': תצוגת פריט בודד מקומית (ללא Service וללא טופס)
+
+### צעד 1: מודל הנתונים (Model)
+
+#### 📋 טבלת ניתוח ישות המודל:
+| שדה / תכונה | טיפוס נתונים | תפקיד עסקי ושימוש ב-UI / במסד נתונים | דוגמה מוחשית לערך |
+| :--- | :--- | :--- | :--- |
+| **`Id`** | `int` | מזהה ייחודי (מפתח ראשי עתידי) | `1` |
+| **`Title`** | `string` | כותרת הישות | `"כותרת לדוגמה"` |
 
 ```csharp
-namespace <AppNamespace>.ViewModels;
+// קוד מחלקת המודל POCO
+```
 
-public class <ScreenName>ViewModel : BaseViewModel
+---
+
+### צעד 2: ה-ViewModel לדפדוף בשיטת 6 הבלוקים
+
+#### 📋 טבלת מאפייני המצב ב-ViewModel:
+| שם המאפיין | טיפוס | מתי הוא מתעדכן? | תוצאה ויזואלית במסך |
+| :--- | :--- | :--- | :--- |
+| **`CurrentItem`** | `<Model>?` | בעת דפדוף | כל תוויות המידע מתעדכנות |
+| **`Title`** | `string` | באתחול | כותרת הדף |
+
+#### 📋 טבלת פקודות והגנות CanExecute:
+| פקודה (`ICommand`) | פקד מפעיל ב-XAML | מתודת ביצוע (`Execute`) | תנאי הגנה (`CanExecute`) | מצב הכפתור כשהתנאי שקרי |
+| :--- | :--- | :--- | :--- | :--- |
+| **`NextCommand`** | כפתור הבא | `ExecuteNext` | `Index < Count - 1` | הופך לאפור/מנוטרל בסוף הרשימה |
+| **`PreviousCommand`** | כפתור הקודם | `ExecutePrevious` | `Index > 0` | הופך לאפור/מנוטרל בתחילת הרשימה |
+
+#### 🧱 פירוק ה-ViewModel ל-6 הבלוקים התקניים:
+- **בלוק 1: שדות פרטיים (`Private Fields`)**
+- **בלוק 2: מאפייני מצב פומביים (`State Properties`)**
+- **בלוק 3: הצהרת פקודות (`Commands`)**
+- **בלוק 4: פעולה בונה ואתחול (`Constructor`)**
+- **בלוק 5: מתודות ביצוע ו-CanExecute**
+- **בלוק 6: סנכרון ורענון פקודות מרכזי (`RefreshCommands`)**
+
+---
+
+### צעד 3: חיבור המסך ב-XAML (View)
+
+#### 📋 טבלת מיפוי מסך מול לוגיקה:
+| פקד ב-XAML | תכונה מקושרת | ביטוי Data Binding | כיוון קישור | תפקיד בממשק |
+| :--- | :--- | :--- | :--- | :--- |
+| `Label` | `Text` | `{Binding CurrentItem.Title}` | `OneWay` | הצגת כותרת הפריט |
+| `Button` | `Command` | `{Binding NextCommand}` | `OneWay` | מעבר לפריט הבא |
+
+#### הצמדת ה-BindingContext בקוד האחורי (Code-Behind) תחילה:
+```csharp
+public <ScreenName>Page()
 {
-    private string _title = string.Empty;
-    public string Title
-    {
-        get => _title;
-        set
-        {
-            if (_title != value)
-            {
-                _title = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    public ICommand SaveCommand { get; }
-
-    public <ScreenName>ViewModel(IDatabaseService dbService)
-    {
-        // עקרון פיתוח מקצועי: הגנה על פקודות באמצעות CanExecute
-        SaveCommand = new Command(async () => await OnSaveAsync(), () => !IsLoading);
-    }
+    InitializeComponent();
+    BindingContext = new <ScreenName>ViewModel();
 }
 ```
 
----
-
-## ❓ 7. שאלות חזרה, הבנה ואתגר חשיבה
-
-### ⚖️ חלק א': דילמת ארכיטקטורה ועיצוב (Architectural Dilemma)
-**דילמה:** <הצגת דילמת תכנון מעשית, למשל: חישוב ב-SQL לעומת חישוב ב-C#>  
-**שיקולים לבחינה:**
-- שיקול ביצועים וזיכרון.
-- שיקול פשטות הקוד וגמישות התצוגה.
-
-### 🧠 חלק ב': שאלות הבנה מעמיקות עם רמזי הכוונה
-1. **<שאלה 1>?**
-   > [!TIP]
-   > **רמז לחשיבה:** <רמז תמציתי ומנחה>
-
-2. **<שאלה 2>?**
-   > [!TIP]
-   > **רמז לחשיבה:** <רמז תמציתי ומנחה>
-
-### 🛠️ חלק ג': אתגר מעשי קצר לתלמיד (Mini-Challenge)
-**המשימה:** <תיאור משימת הרחבה קונקרטית לקוד המסך>  
-**צעדי יישום מומלצים:**
-1. <שלב 1>
-2. <שלב 2>
+#### 🧱 פירוק ה-XAML לתת-בלוקים (עם שבירת שורות תקנית לכל תכונה):
+- **תת-בלוק 1: ראש הדף ו-Compiled Bindings (`x:DataType`)**
+- **תת-בלוק 2: שלד הפריסה הראשי (Grid / Layout)**
+- **תת-בלוק 3: כרטיסיית התצוגה (`Border` מעוגל)**
+- **תת-בלוק 4: סרגל כפתורי ניווט מוגנים**
+- **תת-בלוק 5: פרטי הפריט הנוכחי עם `StringFormat*`**
 
 ---
 
-## 📖 נספח: מקורות השראה, תיעוד וביבליוגרפיה
-<div style="font-size: 9.5pt; color: #64748b; line-height: 1.6;">
-מדריך זה נבנה בהשראת מתודולוגיית הפירוק המודולרי של ממשקי מובייל (The Block Strategy) כפי שפותחה ע"י Leomaris Reyes (AskXammy.com / Microsoft MVP).<br>
-תיעוד רשמי ומקורות נוספים:
-<ul>
-  <li>Microsoft Learn: <a href="https://learn.microsoft.com/dotnet/maui/">מדריך הפיתוח הרשמי ל-.NET MAUI</a></li>
-  <li>Microsoft Learn: <a href="https://learn.microsoft.com/dotnet/maui/fundamentals/data-binding/">עקרונות Data Binding ו-MVVM</a></li>
-</ul>
-</div>
+### 🧠 שאלות הבנה ובדיקה עצמית — שלב א'
+> [!TIP]
+> 1. מדוע חיוני לחבר את ה-BindingContext לפני כתיבת ה-XAML?
+> 2. כיצד מנגנון ה-CanExecute מגן על האפליקציה מקריסות?
+
+---
+
+<div style="page-break-before: always;"></div>
+
+## 🌐 שלב ב': שכבת שירות (Service Layer & Mockup) וחיווי טעינה
+
+### צעד 1: הגדרת ממשק השירות (`IService`)
+מדוע עוברים לממשק? בידוד משתנים פדגוגי, פיתוח מונחה חוזים והחלפה חלקה בעתיד למסד נתונים אמיתי (SQLite / API).
+
+#### 📋 טבלת ניתוח פעולות הממשק:
+| מתודה וחתימה בממשק | טיפוס מוחזר | פרמטרים | תפקיד ומשמעות עסקית | מדוע Task א-סינכרוני? |
+| :--- | :--- | :--- | :--- | :--- |
+| **`GetAllItemsAsync()`** | `Task<IReadOnlyList<T>>` | ללא | שליפת כל הנתונים מהמאגר | הדמיית זמן גישה לדיסק או לרשת |
+
+---
+
+<div style="page-break-before: always;"></div>
+
+### צעד 2: מימוש שירות מדומה בזיכרון (`MockService.cs`)
+<מימוש מחלקת Mock עם השהיית `await Task.Delay(...)`>
+
+---
+
+### צעד 3: עדכון ה-ViewModel להזרקת שירות וטעינה א-סינכרונית
+<הזרקת השירות בבנאי והפעלת מתודת טעינה מסודרת>
+
+---
+
+<div style="page-break-before: always;"></div>
+
+### צעד 4: מנגנון טעינת נתונים וחיווי למשתמש (`ActivityIndicator` ו-`IsLoading`)
+
+#### א. מהו הפקד `ActivityIndicator` ומדוע הוא נחוץ?
+הסבר על מחוון פעילות מעגלי בלתי מוגדר (Indeterminate Progress) וחשיבותו ב-Mobile UX למניעת תחושת "קפיאה" ומניעת לחיצות חוזרות ונשנות (Spam Clicks).
+
+#### ב. תכונות המפתח של הפקד והשימוש ב-`IsLoading`:
+| תכונה בפקד | טיפוס | תפקיד בממשק | כיצד אנו קושרים אותה ב-XAML? |
+| :--- | :--- | :--- | :--- |
+| **`IsRunning`** | `bool` | קובע האם גלגל האנימציה מסתובב | `{Binding IsLoading}` |
+| **`IsVisible`** | `bool` | קובע האם הפקד מוצג או מוסתר לחלוטין | `{Binding IsLoading}` |
+| **`Color`** | `Color` | צבע גלגל הטעינה המותאם לשפת העיצוב | צבע מותאם (למשל `#2563EB`) |
+
+> [!IMPORTANT]
+> ### 🔍 נקודה קריטית: מדוע חובה לקשור גם את `IsRunning` וגם את `IsVisible`?
+> קישור של `IsRunning` בלבד גורם לכך שבסיום הטעינה הגלגל מפסיק להסתובב **אך נשאר תקוע על המסך כעיגול קפוא ותופס מקום בפריסה**. הקישור הכפול מבטיח שהגלגל גם נעצר וגם נעלם לחלוטין!
+
+#### ג. מאפיין העזר הנגזר `IsNotLoading`:
+מוגדר ב-`BaseViewModel`: `public bool IsNotLoading => !IsLoading;`  
+מאפשר הגנה נקייה וקריאה בתנאי פקודות (`CanExecute`) ללא צורך בממירי ערכים (`InvertedBoolConverter`).
+
+#### ד. פירוק הטיפול בטעינה לשני בלוקים:
+- **🧱 בלוק טיפול ב-ViewModel:** מחזור חיים מלא `try-catch-finally` עם הרמת `IsLoading = true;` בתחילה, וכיבוי מובטח ב-`finally` יחד עם `RefreshCommands();`.
+- **🧱 בלוק טיפול ב-XAML:** מיקום הפקד תחת כותרת המסך והגדרתו עם שבירת שורות תקנית.
+
+#### 📋 טבלת סיכום: מנגנון ה-ActivityIndicator וה-ViewModel
+| רכיב במערכת | מיקום בקוד | תפקיד במנגנון הטעינה | תוצאה ויזואלית במסך |
+| :--- | :--- | :--- | :--- |
+| **`IsLoading = true`** | ViewModel (התחלה) | הרמת דגל טעינה | ה-ActivityIndicator מופיע ומסתובב |
+| **`RefreshCommands()`** | ViewModel | רענון תנאי CanExecute | כפתורים הופכים לאפורים ומנוטרלים |
+| **`IsLoading = false`** | ViewModel (ב-finally) | כיבוי מובטח של הדגל | ה-ActivityIndicator נעלם לחלוטין |
+
+---
+
+### 🧠 שאלות הבנה ובדיקה עצמית — שלב ב'
+> [!TIP]
+> 1. מדוע חובה להגדיר ב-`ActivityIndicator` גם את `IsRunning` וגם את `IsVisible`?
+> 2. מה היה קורה אם היינו שוכחים להשתמש בבלוק `finally` והשירות היה זורק שגיאה?
+
+---
+
+<div style="page-break-before: always;"></div>
+
+## 📝 שלב ג': טופס הזנה ועריכה בקישור דו-כיווני (Two-Way Binding)
+
+### צעד 1: הרחבת ה-ViewModel לשדות קלט
+
+#### 📋 טבלת ניתוח שדות ופקודות הטופס:
+| שדה / פקודה | טיפוס | פקד מקושר ב-XAML | כיוון קישור | סוג מקלדת / תפקיד |
+| :--- | :--- | :--- | :--- | :--- |
+| **`InputTitle`** | `string` | `Entry` | `TwoWay` | קליטת ערך בזמן אמת |
+| **`SaveCommand`** | `ICommand` | `Button` | `OneWay` | אימות, שמירה ורענון תצוגה |
+
+#### 🧱 בלוק שדות קלט בדידים (Two-Way Properties):
+<קוד המאפיינים עם OnPropertyChanged>
+
+#### 🧱 בלוק פקודת שמירה ואימות קלט:
+<לוגיקת שמירה מאובטחת>
+
+---
+
+### צעד 2: בניית כרטיסיית הטופס ב-XAML
+- שימוש ב-`Mode=TwoWay` בשדות ה-`Entry`.
+- הגדרת מקלדות ייעודיות (`Keyboard="Numeric"`, `Keyboard="Url"`).
+- כפתור שמירה ירוק מחובר ל-`SaveCommand`.
+
+---
+
+## 🧪 נספח א': מדריך בדיקות יחידה (Unit Testing) עם xUnit
+הסבר על תבנית Arrange-Act-Assert (AAA) ובדיקת הלוגיקה ללא תלות במסך או באמולטור.
+
+---
+
+## 📖 נספח ב': מקורות השראה, תיעוד וביבליוגרפיה
+* תיעוד רשמי: [Microsoft Learn - .NET MAUI Data Binding](https://learn.microsoft.com/dotnet/maui/fundamentals/data-binding/)
+* *הסבר על עיצוב מחרוזות: [Microsoft Learn - String formatting in .NET MAUI Data Binding](https://learn.microsoft.com/dotnet/maui/fundamentals/data-binding/string-formatting)
 ```

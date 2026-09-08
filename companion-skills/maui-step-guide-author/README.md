@@ -4,11 +4,14 @@ This package provides the **`maui-step-guide-author`** skill, bringing the accla
 
 ## Key Features
 
-1. **The Block Strategy**: Deconstructs mobile designs into named, color-coded functional blocks before writing code.
-2. **Modular XAML with Placeholder Anchors**: Step-by-step layout assembly that avoids dumping large blocks of code at once.
-3. **HTML/Browser Visual Mockups**: Creates responsive HTML/CSS mobile mockups captured via browser agents to produce authentic visual progression diagrams.
-4. **Didactic Concept Callouts ("✍️ פינת העמקה")**: Explains tricky properties (e.g. negative margins, gradients, `CanExecute`) with official Microsoft Learn references.
-5. **K-12 Hebrew Standard**: All teaching and explanations written in fluent Hebrew, keeping code identifiers in clean English.
+1. **Interactive Pedagogical Intake (Phase 0)**: Brief, guided intake offering 3 distinct guide archetypes (Full 3-Phase Golden Path, Focused Screen Replication, Collections & Master-Detail) before authoring.
+2. **Dual-Block Strategy**: Symmetrical, modular block deconstruction applied equally to both the XAML View (6 layout blocks) and the C# ViewModel (6 logical code blocks).
+3. **7 Generalized Analytical Tables**: Pedagogical tabular blueprints mapping Domain Models, ViewModel State, Commands & CanExecute, XAML element-to-property bindings, Service Contracts, Loading/Feedback states, and Form Validation.
+4. **Dedicated Data Loading & Feedback**: Complete guide section for `ActivityIndicator`, `IsLoading`, derived `IsNotLoading`, `CanExecute` guardrails, and mandatory `try-catch-finally` cleanup.
+5. **Print-Perfect PDF Layout Standards**: Strict CSS and layout rules preventing table column clipping (tight padding, soft-wrapping code, scaled typography) and avoiding orphaned headings or blank pages.
+6. **HTML/Browser Visual Mockups**: Creates responsive HTML/CSS mobile mockups captured via browser agents to produce authentic visual progression diagrams.
+7. **Didactic Concept Callouts ("✏️ פינת העמקה")**: Explains tricky properties (e.g. `StringFormat` with Microsoft Learn links, negative margins, gradients, `CanExecute`) with official Microsoft Learn references.
+8. **K-12 Hebrew Standard**: All teaching and explanations written in fluent Hebrew, keeping code identifiers in clean English.
 
 ## Installation
 
