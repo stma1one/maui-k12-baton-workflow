@@ -86,5 +86,10 @@ foreach ($entry in $toolMap.GetEnumerator()) {
     }
 }
 
+$learningBookSetup = Join-Path $targetScriptsDir "Setup-Learning-Book.ps1"
+if (Test-Path $learningBookSetup) {
+    & $learningBookSetup -ProjectRoot $Root
+}
+
 Write-Host "MAUI K12 skill structure, visual-capture tools, and learning-book validation are ready." -ForegroundColor Green
 Write-Host "Default mode: MAXIMIZE STUDENT CAPABILITY" -ForegroundColor Cyan

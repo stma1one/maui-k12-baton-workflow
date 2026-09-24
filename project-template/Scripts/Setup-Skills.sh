@@ -69,5 +69,10 @@ for source_name in generate_book_pdf.py capture_mockup_blocks.py validate_learni
     fi
 done
 
+LEARNING_BOOK_SETUP="$TARGET_DIR/Setup-Learning-Book.sh"
+if [ -f "$LEARNING_BOOK_SETUP" ]; then
+    "$LEARNING_BOOK_SETUP" "$ROOT"
+fi
+
 echo "MAUI K12 skill structure, visual-capture tools, and learning-book validation are ready."
 echo "Default mode: MAXIMIZE STUDENT CAPABILITY"

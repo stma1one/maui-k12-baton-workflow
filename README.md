@@ -99,19 +99,33 @@ Then open the target project in your agent tool and ask it to read `AGENTS.md`.
 
 The installer does not overwrite an existing `AGENTS.md`, `CLAUDE.md`, `MAUI-Agent-Mode.json`, `Current-Phase.md`, `MAUI-Learning-Book.md`, or `Student-Mastery.md`. If those files already exist, merge the template content manually.
 
-The installer also installs `maui-step-guide-author` for Project, Codex, and Claude Code targets, and copies the learning-book scripts into a project `Scripts/` folder. Existing template scripts are skipped rather than overwritten.
+The installer also installs `maui-step-guide-author` for Project, Codex, and Claude Code targets, and copies the learning-book scripts into a project `Scripts/` folder. Existing template scripts are skipped rather than overwritten. For a Project install, it checks the Python packages and Chromium runtime without downloading anything.
 
 ### Learning-book tools
 
-In a target project, install the declared Python dependencies before generating visual snapshots or a validated book:
+The checker never downloads software by default. When prerequisites are already available, it does nothing. When they are missing, it names the missing items and explains that installation can download browser binaries, use disk space, and change the selected Python environment.
+
+Check the target project at any time:
 
 ```powershell
-python -m pip install -r .\Scripts\Learning-Book-Requirements.txt
-python -m playwright install chromium
-python .\Scripts\Generate-Learning-Book-Pdf.py
+.\Scripts\Setup-Learning-Book.ps1
 ```
 
-The generator writes `Learning/MAUI-Learning-Book.validation.json`. A failed report means the book is not ready to publish.
+Install only after the user explicitly agrees:
+
+```powershell
+.\Scripts\Setup-Learning-Book.ps1 -InstallMissing
+# Or install while running the package installer:
+.\scripts\Install-Skill.ps1 -Target Project -ProjectPath C:\path\to\YourMauiProject -InstallLearningBookDependencies
+```
+
+```bash
+./Scripts/Setup-Learning-Book.sh
+./Scripts/Setup-Learning-Book.sh . --install-missing
+# Or: ./scripts/Install-Skill.sh Project /path/to/YourMauiProject --install-learning-book-dependencies
+```
+
+Then generate the book with `python .\Scripts\Generate-Learning-Book-Pdf.py`. The generator writes `Learning/MAUI-Learning-Book.validation.json`. A failed report means the book is not ready to publish.
 
 ## Manual Install: Antigravity Project
 
