@@ -37,16 +37,28 @@ Write-FileIfMissing (Join-Path $Root "Learning\Current-Phase.md") @'
 Status: NOT_STARTED
 
 Mode is controlled by `.agents/MAUI-Agent-Mode.json`.
+
+Theory evidence:
+Applied coding evidence:
+Routine eligibility for agent-owned work:
 '@
 
 Write-FileIfMissing (Join-Path $Root "Learning\Student-Mastery.md") @'
 # Student Mastery
 
-Use:
+Use these levels:
 - Not introduced
 - Practicing
 - Understands
 - Can work independently
+
+For every concept, record:
+- Theory evidence
+- Applied coding evidence
+- Evidence source (student-authored file/diff or reconstruction)
+- Routine eligibility: Yes/No
+
+Only mark `Can work independently` and `Routine eligibility: Yes` after both evidence tracks are demonstrated. Agent-generated or copied code never counts as applied coding evidence.
 '@
 
 Write-FileIfMissing (Join-Path $Root "Learning\MAUI-Learning-Book.md") @'

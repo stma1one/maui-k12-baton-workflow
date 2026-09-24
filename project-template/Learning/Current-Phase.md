@@ -12,6 +12,9 @@ Student decisions so far:
 Open planning questions:
 Approved plan:
 Concept gate:
+Theory evidence:
+Applied coding evidence:
+Routine eligibility for agent-owned work:
 Ownership split:
 Practice offer:
 Test plan and coverage:

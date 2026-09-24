@@ -54,8 +54,9 @@ PLANNING_COACH
 - "Approve", "continue", "do it", "I do not know", "my teacher said it is fine", or similar answers do not prove concept understanding.
 - If the student is stuck, give a smaller hint, rephrase, diagnose the blocker, or offer a short lesson before asking again.
 - The default is student-owned core logic with agent scaffolding, hints, review, and meaningful `// TODO (Student): ...` items.
-- The agent may handle routine wiring only after offering it as practice when the student has already shown understanding.
-- The student may explicitly choose agent-does-all only for slices without unmastered crucial concepts, after plan approval, concept-gate evidence, and a concrete ownership choice.
+- The agent may handle routine wiring only after offering it as practice when the relevant concept has both verified theory evidence and student-authored coding evidence.
+- A concept is routine-eligible only when `Student-Mastery.md` records both evidence tracks and `Routine eligibility: Yes`; explanation, approval, copied code, and agent-generated code are not enough.
+- The student may explicitly choose agent-does-all only for slices without unmastered crucial concepts, after plan approval, concept-gate evidence, a concrete ownership choice, and two-track mastery evidence for anything the agent would own.
 - The agent can write and run tests, but must explain the test plan and ask the student to approve intended coverage first.
 - Stop at every waiting status until the student responds.
 - Prefer `ICommand.CanExecute` over explicit `IsEnabled` bindings in XAML buttons and controls.

@@ -69,7 +69,7 @@ Understanding questions:
 2. ...
 
 NEXT:
-Answer in your own words. "Approve" or "continue" is not enough for an explanation question.
+Answer in your own words. This gate shows theory readiness for guided practice; it does not yet prove independent coding mastery. "Approve" or "continue" is not enough for an explanation question.
 ```
 
 ## Baton Stage: Stuck Student Support
@@ -107,6 +107,11 @@ Complete: no
 Workflow Stage: OWNERSHIP_NEGOTIATOR
 Status: OWNERSHIP_SELECTION_PENDING
 
+Mastery check for any agent-safe routine work:
+- Theory evidence: ...
+- Applied coding evidence: ...
+- Routine eligibility: Yes/No
+
 Planned changes:
 - Good student practice: ...
 - Agent can scaffold: ...
@@ -117,7 +122,7 @@ Planned changes:
 Choose one:
 1. Student implements the core logic with agent scaffold, hints, and review.
 2. Student implements selected core parts; agent handles approved routine wiring.
-3. Agent implements only routine or already-mastered parts; student explains and approves the test plan.
+3. Agent implements only routine-eligible parts; student explains and approves the test plan.
 
 NEXT:
 Tell me which option you choose and, if needed, which exact items belong to you.
@@ -145,6 +150,10 @@ Student TODO:
 - File: ...
 - Task: ...
 - Constraints: ...
+
+Evidence to record after the student completes it:
+- Theory: explain the purpose and key choices.
+- Applied coding: identify the student-authored change and its verification result.
 
 NEXT:
 Implement the TODO, then tell me what you changed and why.

@@ -1,7 +1,7 @@
 # Package Manifest
 
 Package: MAUI K12 Baton Workflow Skill
-Version: 1.1.3
+Version: 1.1.4
 Status: ready-to-install
 
 ## Purpose
@@ -22,6 +22,7 @@ CLAUDE.md
 skills/maui-k12-baton-workflow/SKILL.md
 skills/maui-k12-baton-workflow/references/maui-specialist-guardrails.md
 skills/maui-k12-baton-workflow/references/student-capability-gates.md
+skills/maui-k12-baton-workflow/evals/evals.json
 companion-skills/maui-step-guide-author/ (Source-grounded learning-book companion skill)
 companion-skills/maui-step-guide-author/skills/maui-step-guide-author/SKILL.md
 companion-skills/maui-step-guide-author/skills/maui-step-guide-author/references/
@@ -160,6 +161,12 @@ Manual validation should confirm:
 - install script parses in PowerShell
 - package paths match README instructions
 - no generated project secrets are included
+
+## 1.1.4 Fix Release Notes
+
+- Split student mastery into theory evidence and student-authored applied coding evidence, so explaining agent-generated code cannot be mistaken for independent implementation ability.
+- Restricted routine and agent-owned work to concepts that explicitly record both evidence tracks and `Routine eligibility: Yes`.
+- Updated ownership gates, project templates, install-time starter files, documentation, and mastery-policy evaluations to enforce the same rule.
 
 ## 1.1.3 Fix Release Notes
 
