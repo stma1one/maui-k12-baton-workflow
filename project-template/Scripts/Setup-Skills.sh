@@ -3,62 +3,71 @@ set -euo pipefail
 
 ROOT="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 
-SKILLS=("maui-k12-baton-workflow")
+mkdir -p "$ROOT/.agents/skills/maui-k12-baton-workflow"
+mkdir -p "$ROOT/.agents/skills/maui-step-guide-author"
+mkdir -p "$ROOT/Learning/Guides" "$ROOT/Learning/Mockups" "$ROOT/Learning/Images"
 
-for skill in "${SKILLS[@]}"; do
-    mkdir -p "$ROOT/.agents/skills/$skill"
-done
+write_if_missing() {
+    local destination="$1"
+    local content="$2"
+    if [ ! -f "$destination" ]; then
+        mkdir -p "$(dirname "$destination")"
+        printf '%s\n' "$content" > "$destination"
+    fi
+}
 
-mkdir -p "$ROOT/Learning"
-mkdir -p "$ROOT/.agents"
-
-CONFIG_PATH="$ROOT/.agents/MAUI-Agent-Mode.json"
-if [ ! -f "$CONFIG_PATH" ]; then
-    cat << 'EOF' > "$CONFIG_PATH"
-{
+write_if_missing "$ROOT/.agents/MAUI-Agent-Mode.json" '{
   "studentCapabilityMode": true,
   "description": {
     "true": "MAXIMIZE STUDENT CAPABILITY",
     "false": "MAXIMIZE CODE GENERATED"
   }
-}
-EOF
-fi
-
-CURRENT_PHASE="$ROOT/Learning/Current-Phase.md"
-if [ ! -f "$CURRENT_PHASE" ]; then
-    cat << 'EOF' > "$CURRENT_PHASE"
-# Current Phase
+}'
+write_if_missing "$ROOT/Learning/Current-Phase.md" '# Current Phase
 
 Status: NOT_STARTED
 
-Mode is controlled by `.agents/MAUI-Agent-Mode.json`.
-
-The orchestrator creates phase details when the first feature begins.
-EOF
-fi
-
-MASTERY="$ROOT/Learning/Student-Mastery.md"
-if [ ! -f "$MASTERY" ]; then
-    cat << 'EOF' > "$MASTERY"
-# Student Mastery
+Mode is controlled by `.agents/MAUI-Agent-Mode.json`.'
+write_if_missing "$ROOT/Learning/Student-Mastery.md" '# Student Mastery
 
 Use:
-- ⚪ Not introduced
-- 🟡 Practicing
-- 🟢 Understands
-- 🔵 Can work independently
-EOF
+- Not introduced
+- Practicing
+- Understands
+- Can work independently'
+write_if_missing "$ROOT/Learning/MAUI-Learning-Book.md" '# MAUI Learning Book
+
+This is the student'"'"'s append-only learning book.'
+
+# Support a local package checkout while keeping the nested companion skill canonical.
+PACKAGE_ROOT="$ROOT/SkillPackages/maui-k12-baton-workflow"
+if [ -d "$PACKAGE_ROOT" ]; then
+    CORE_SOURCE="$PACKAGE_ROOT/skills/maui-k12-baton-workflow"
+    COMPANION_SOURCE="$PACKAGE_ROOT/companion-skills/maui-step-guide-author/skills/maui-step-guide-author"
+    if [ -d "$CORE_SOURCE" ]; then
+        cp -R "$CORE_SOURCE/"* "$ROOT/.agents/skills/maui-k12-baton-workflow/"
+    fi
+    if [ -d "$COMPANION_SOURCE" ]; then
+        cp -R "$COMPANION_SOURCE/"* "$ROOT/.agents/skills/maui-step-guide-author/"
+    fi
 fi
 
-LEARNING_BOOK="$ROOT/Learning/MAUI-Learning-Book.md"
-if [ ! -f "$LEARNING_BOOK" ]; then
-    cat << 'EOF' > "$LEARNING_BOOK"
-# MAUI Learning Book
+SOURCE_DIR="$ROOT/.agents/skills/maui-step-guide-author/scripts"
+TARGET_DIR="$ROOT/Scripts"
+mkdir -p "$TARGET_DIR"
 
-This is the student's append-only learning book.
-EOF
-fi
+for source_name in generate_book_pdf.py capture_mockup_blocks.py validate_learning_book.py requirements-learning-book.txt; do
+    case "$source_name" in
+        generate_book_pdf.py) target_name="Generate-Learning-Book-Pdf.py" ;;
+        capture_mockup_blocks.py) target_name="Capture-Mockup-Blocks.py" ;;
+        validate_learning_book.py) target_name="Validate-Learning-Book.py" ;;
+        requirements-learning-book.txt) target_name="Learning-Book-Requirements.txt" ;;
+    esac
+    source_path="$SOURCE_DIR/$source_name"
+    if [ -f "$source_path" ]; then
+        cp "$source_path" "$TARGET_DIR/$target_name"
+    fi
+done
 
-echo -e "\033[0;32mMAUI K12 skill structure and learning state are ready.\033[0m"
-echo -e "\033[0;36mDefault mode: MAXIMIZE STUDENT CAPABILITY\033[0m"
+echo "MAUI K12 skill structure, visual-capture tools, and learning-book validation are ready."
+echo "Default mode: MAXIMIZE STUDENT CAPABILITY"

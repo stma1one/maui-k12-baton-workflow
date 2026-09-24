@@ -1,26 +1,27 @@
 param([string]$Root = (Split-Path -Parent $PSScriptRoot))
+
 $ErrorActionPreference = "Stop"
 
-$skills = @(
-    "maui-k12-baton-workflow",
-    "maui-step-guide-author"
-)
-
+$skills = @("maui-k12-baton-workflow", "maui-step-guide-author")
 foreach ($skill in $skills) {
-    $path = Join-Path $Root ".agents\skills\$skill"
-    New-Item -ItemType Directory -Path $path -Force | Out-Null
+    New-Item -ItemType Directory -Path (Join-Path $Root ".agents\skills\$skill") -Force | Out-Null
 }
 
-New-Item -ItemType Directory -Path (Join-Path $Root "Learning") -Force | Out-Null
-New-Item -ItemType Directory -Path (Join-Path $Root "Learning\Guides") -Force | Out-Null
-New-Item -ItemType Directory -Path (Join-Path $Root "Learning\Mockups") -Force | Out-Null
-New-Item -ItemType Directory -Path (Join-Path $Root "Learning\Images") -Force | Out-Null
+$learningDirectories = @("Learning", "Learning\Guides", "Learning\Mockups", "Learning\Images")
+foreach ($directory in $learningDirectories) {
+    New-Item -ItemType Directory -Path (Join-Path $Root $directory) -Force | Out-Null
+}
 New-Item -ItemType Directory -Path (Join-Path $Root ".agents") -Force | Out-Null
 
-$configPath = Join-Path $Root ".agents\MAUI-Agent-Mode.json"
+function Write-FileIfMissing([string]$Path, [string]$Content) {
+    if (-not (Test-Path $Path)) {
+        $parent = Split-Path -Parent $Path
+        New-Item -ItemType Directory -Path $parent -Force | Out-Null
+        Set-Content -LiteralPath $Path -Value $Content -Encoding UTF8
+    }
+}
 
-if (-not (Test-Path $configPath)) {
-@'
+Write-FileIfMissing (Join-Path $Root ".agents\MAUI-Agent-Mode.json") @'
 {
   "studentCapabilityMode": true,
   "description": {
@@ -28,67 +29,62 @@ if (-not (Test-Path $configPath)) {
     "false": "MAXIMIZE CODE GENERATED"
   }
 }
-'@ | Set-Content $configPath -Encoding UTF8
-}
+'@
 
-$currentPhase = Join-Path $Root "Learning\Current-Phase.md"
-if (-not (Test-Path $currentPhase)) {
-@'
+Write-FileIfMissing (Join-Path $Root "Learning\Current-Phase.md") @'
 # Current Phase
 
 Status: NOT_STARTED
 
 Mode is controlled by `.agents/MAUI-Agent-Mode.json`.
+'@
 
-The orchestrator creates phase details when the first feature begins.
-'@ | Set-Content $currentPhase -Encoding UTF8
-}
-
-$mastery = Join-Path $Root "Learning\Student-Mastery.md"
-if (-not (Test-Path $mastery)) {
-@'
+Write-FileIfMissing (Join-Path $Root "Learning\Student-Mastery.md") @'
 # Student Mastery
 
 Use:
-- ⚪ Not introduced
-- 🟡 Practicing
-- 🟢 Understands
-- 🔵 Can work independently
-'@ | Set-Content $mastery -Encoding UTF8
-}
+- Not introduced
+- Practicing
+- Understands
+- Can work independently
+'@
 
-$learningBook = Join-Path $Root "Learning\MAUI-Learning-Book.md"
-if (-not (Test-Path $learningBook)) {
-@'
+Write-FileIfMissing (Join-Path $Root "Learning\MAUI-Learning-Book.md") @'
 # MAUI Learning Book
 
 This is the student's append-only learning book.
-'@ | Set-Content $learningBook -Encoding UTF8
-}
+'@
 
-# Sync skill packages to .agents/skills/
-$packagesRoot = Join-Path $Root "SkillPackages"
-if (Test-Path $packagesRoot) {
-    foreach ($skill in $skills) {
-        $srcDir = Join-Path $packagesRoot "$skill\skills\$skill"
-        $destDir = Join-Path $Root ".agents\skills\$skill"
-        if (Test-Path $srcDir) {
-            Copy-Item -Path "$srcDir\*" -Destination $destDir -Recurse -Force
-        }
+function Sync-SkillIfPresent([string]$Source, [string]$Destination) {
+    if (Test-Path $Source) {
+        New-Item -ItemType Directory -Path $Destination -Force | Out-Null
+        Copy-Item -Path (Join-Path $Source "*") -Destination $Destination -Recurse -Force
     }
 }
 
-# Deploy PDF generator and screenshot scripts to project Scripts/ folder
+# Support a local package checkout while keeping the nested companion skill canonical.
+$packageRoot = Join-Path $Root "SkillPackages\maui-k12-baton-workflow"
+if (Test-Path $packageRoot) {
+    Sync-SkillIfPresent (Join-Path $packageRoot "skills\maui-k12-baton-workflow") (Join-Path $Root ".agents\skills\maui-k12-baton-workflow")
+    Sync-SkillIfPresent (Join-Path $packageRoot "companion-skills\maui-step-guide-author\skills\maui-step-guide-author") (Join-Path $Root ".agents\skills\maui-step-guide-author")
+}
+
 $targetScriptsDir = Join-Path $Root "Scripts"
 New-Item -ItemType Directory -Path $targetScriptsDir -Force | Out-Null
-
 $skillScriptsDir = Join-Path $Root ".agents\skills\maui-step-guide-author\scripts"
-if (Test-Path $skillScriptsDir) {
-    $pdfGenScript = Join-Path $skillScriptsDir "generate_book_pdf.py"
-    if (Test-Path $pdfGenScript) {
-        Copy-Item -Path $pdfGenScript -Destination (Join-Path $targetScriptsDir "Generate-Learning-Book-Pdf.py") -Force
+$toolMap = @{
+    "generate_book_pdf.py" = "Generate-Learning-Book-Pdf.py"
+    "capture_mockup_blocks.py" = "Capture-Mockup-Blocks.py"
+    "validate_learning_book.py" = "Validate-Learning-Book.py"
+    "requirements-learning-book.txt" = "Learning-Book-Requirements.txt"
+}
+
+foreach ($entry in $toolMap.GetEnumerator()) {
+    $source = Join-Path $skillScriptsDir $entry.Key
+    if (Test-Path $source) {
+        Copy-Item -LiteralPath $source -Destination (Join-Path $targetScriptsDir $entry.Value) -Force
     }
 }
 
-Write-Host "MAUI K12 skill structure, PDF scripts, and learning state are ready." -ForegroundColor Green
+Write-Host "MAUI K12 skill structure, visual-capture tools, and learning-book validation are ready." -ForegroundColor Green
 Write-Host "Default mode: MAXIMIZE STUDENT CAPABILITY" -ForegroundColor Cyan

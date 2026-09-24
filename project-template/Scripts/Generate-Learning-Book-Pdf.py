@@ -16,6 +16,7 @@ import re
 import base64
 import argparse
 import subprocess
+import importlib.util
 from pathlib import Path
 
 # Ensure UTF-8 output on Windows consoles
@@ -103,7 +104,7 @@ def transform_callouts(html_text: str) -> str:
     html_text = html_text.replace('</blockquote>', '</div></div>')
     return html_text
 
-def embed_images(html_text: str, base_dir: Path, learning_dir: Path) -> str:
+def embed_images(html_text: str, base_dir: Path, learning_dir: Path, missing_images: list[str]) -> str:
     """Embeds local images as inline base64 to avoid Chrome file sandbox issues."""
     def replace_img(match):
         src = match.group(1)
@@ -133,18 +134,19 @@ def embed_images(html_text: str, base_dir: Path, learning_dir: Path) -> str:
                 return f'<img src="data:image/{ext};base64,{b64}" class="embedded-img" alt="{match.group(2)}"'
             except Exception as e:
                 print(f"Warning: Failed embedding image {found_path}: {e}")
+        missing_images.append(src)
         return match.group(0)
 
     return re.sub(r'<img\s+src="([^"]+)"\s+alt="([^"]*)"', replace_img, html_text)
 
-def generate_html_document(combined_md: str, project_info: dict, learning_dir: Path) -> str:
+def generate_html_document(combined_md: str, project_info: dict, learning_dir: Path, missing_images: list[str]) -> str:
     from markdown_it import MarkdownIt
     from pygments.formatters import HtmlFormatter
 
     md = MarkdownIt("commonmark", {"html": True, "highlight": highlight_code}).enable("table")
     html_body = md.render(combined_md)
     html_body = transform_callouts(html_body)
-    html_body = embed_images(html_body, learning_dir, learning_dir)
+    html_body = embed_images(html_body, learning_dir, learning_dir, missing_images)
 
     formatter = HtmlFormatter(style="default")
     pygments_css = formatter.get_style_defs('.highlight')
@@ -568,12 +570,38 @@ def generate_html_document(combined_md: str, project_info: dict, learning_dir: P
 </body>
 </html>"""
 
+def ensure_dependencies(include_validation: bool) -> None:
+    required = {
+        "markdown_it": "markdown-it-py",
+        "pygments": "Pygments",
+    }
+    if include_validation:
+        required.update({"playwright": "playwright", "fitz": "PyMuPDF"})
+
+    missing = [package for module, package in required.items() if importlib.util.find_spec(module) is None]
+    if missing:
+        packages = ", ".join(missing)
+        raise RuntimeError(
+            f"Missing Python dependency or dependencies: {packages}. "
+            "Install the packaged requirements with: "
+            "python -m pip install -r Scripts/Learning-Book-Requirements.txt"
+        )
+
+
 def main():
     parser = argparse.ArgumentParser(description="Generate MAUI Learning Book PDF.")
     parser.add_argument("--project-root", help="Path to MAUI repository root", default=None)
     parser.add_argument("--app-name", help="App name override", default=None)
     parser.add_argument("--output-pdf", help="Destination PDF path", default=None)
+    parser.add_argument("--skip-validation", action="store_true", help="Generate artifacts without running the HTML/PDF quality gate.")
+    parser.add_argument("--validation-report", help="JSON validation report destination", default=None)
     args = parser.parse_args()
+
+    try:
+        ensure_dependencies(include_validation=not args.skip_validation)
+    except RuntimeError as error:
+        print(f"Error: {error}", file=sys.stderr)
+        return 2
 
     project_root = find_project_root(args.project_root)
     learning_dir = project_root / "Learning"
@@ -617,7 +645,13 @@ def main():
     output_pdf = Path(args.output_pdf) if args.output_pdf else (learning_dir / "MAUI-Learning-Book.pdf")
 
     print(f"Rendering HTML document...")
-    full_html = generate_html_document(combined_md, project_info, learning_dir)
+    missing_images: list[str] = []
+    full_html = generate_html_document(combined_md, project_info, learning_dir, missing_images)
+    if missing_images:
+        print("Error: the learning book references missing local images:", file=sys.stderr)
+        for image in sorted(set(missing_images)):
+            print(f"- {image}", file=sys.stderr)
+        return 3
     with open(output_html, "w", encoding="utf-8") as f:
         f.write(full_html)
     print(f"Wrote HTML to: {output_html}")
@@ -646,7 +680,38 @@ def main():
         print(f"PDF Location: {output_pdf}")
     else:
         print("Error: PDF file was not created.")
-        sys.exit(1)
+        return 1
+
+    if not args.skip_validation:
+        validator_candidates = (
+            Path(__file__).with_name("validate_learning_book.py"),
+            Path(__file__).with_name("Validate-Learning-Book.py"),
+        )
+        validator = next((candidate for candidate in validator_candidates if candidate.is_file()), validator_candidates[0])
+        report_path = Path(args.validation_report) if args.validation_report else learning_dir / "MAUI-Learning-Book.validation.json"
+        if not validator.is_file():
+            print(f"Error: validation script was not found: {validator}", file=sys.stderr)
+            return 4
+
+        validation = subprocess.run(
+            [
+                sys.executable,
+                str(validator),
+                "--html", str(output_html),
+                "--pdf", str(output_pdf),
+                "--report", str(report_path),
+            ],
+            capture_output=True,
+            text=True,
+        )
+        if validation.stdout:
+            print(validation.stdout, end="")
+        if validation.stderr:
+            print(validation.stderr, end="", file=sys.stderr)
+        if validation.returncode != 0:
+            return validation.returncode
+
+    return 0
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

@@ -53,7 +53,10 @@ maui-k12-baton-workflow/
 |       |-- Audit-DI.ps1 / .sh
 |       |-- Capture-Mockup-Blocks.py
 |       |-- Generate-Learning-Book-Pdf.ps1
+|       |-- Generate-Learning-Book-Pdf.sh
 |       |-- Generate-Learning-Book-Pdf.py
+|       |-- Validate-Learning-Book.ps1 / .sh / .py
+|       |-- Learning-Book-Requirements.txt
 |       |-- Record-Learning-Change.ps1 / .sh
 |       |-- Set-Maui-Agent-Mode.ps1 / .sh
 |       |-- Setup-Skills.ps1 / .sh
@@ -64,7 +67,7 @@ maui-k12-baton-workflow/
     |-- Install-Skill.ps1
     `-- Install-Skill.sh
 
-Companion Skill: `maui-step-guide-author` for modular screen guides (The Block Strategy), HTML mockup screenshots, and PDF book rendering.
+Companion Skill: `maui-step-guide-author` for source-grounded learning books, modular screen guides, generic HTML visual-model snapshots, and validated HTML/PDF book rendering.
 ```
 
 ## Quick Install Into A MAUI Project
@@ -96,7 +99,19 @@ Then open the target project in your agent tool and ask it to read `AGENTS.md`.
 
 The installer does not overwrite an existing `AGENTS.md`, `CLAUDE.md`, `MAUI-Agent-Mode.json`, `Current-Phase.md`, `MAUI-Learning-Book.md`, or `Student-Mastery.md`. If those files already exist, merge the template content manually.
 
-The installer also copies the package validation scripts into the target project's `Scripts/` folder. Existing script files are skipped rather than overwritten.
+The installer also installs `maui-step-guide-author` for Project, Codex, and Claude Code targets, and copies the learning-book scripts into a project `Scripts/` folder. Existing template scripts are skipped rather than overwritten.
+
+### Learning-book tools
+
+In a target project, install the declared Python dependencies before generating visual snapshots or a validated book:
+
+```powershell
+python -m pip install -r .\Scripts\Learning-Book-Requirements.txt
+python -m playwright install chromium
+python .\Scripts\Generate-Learning-Book-Pdf.py
+```
+
+The generator writes `Learning/MAUI-Learning-Book.validation.json`. A failed report means the book is not ready to publish.
 
 ## Manual Install: Antigravity Project
 
@@ -132,7 +147,7 @@ AGENTS.md
 <target-project>/Learning/Student-Mastery.md
 ```
 
-6. Copy `project-template/Scripts/*.ps1` to:
+6. Copy `project-template/Scripts/` to:
 
 ```text
 <target-project>/Scripts/
@@ -221,7 +236,7 @@ In Student Capability Mode, the agent must:
 
 ## Updating The Package
 
-Edit only:
+Update the workflow and companion source together:
 
 ```text
 skills/maui-k12-baton-workflow/SKILL.md
@@ -229,6 +244,7 @@ skills/maui-k12-baton-workflow/references/maui-specialist-guardrails.md
 project-template/AGENTS.md
 project-template/.agents/templates/phase-status-template.md
 project-template/Scripts/*.ps1 and *.sh
+companion-skills/maui-step-guide-author/skills/maui-step-guide-author/
 ```
 
 Then update `PACKAGE-MANIFEST.md` with the new version and change summary.

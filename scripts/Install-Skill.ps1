@@ -41,6 +41,15 @@ function Copy-FileIfMissing($Source, $Destination) {
     Copy-Item -Path $Source -Destination $Destination
 }
 
+$companionSource = Join-Path $packageRoot "companion-skills\maui-step-guide-author\skills\maui-step-guide-author"
+
+function Copy-CompanionSkill($Destination) {
+    if (Test-Path $companionSource) {
+        Copy-Directory $companionSource $Destination
+        Write-Host "Installed companion skill: maui-step-guide-author"
+    }
+}
+
 if ($Target -eq "Project") {
     $resolvedProject = Resolve-Path $ProjectPath
 
@@ -56,16 +65,7 @@ if ($Target -eq "Project") {
     Copy-Directory (Join-Path $templateRoot ".agents\templates") $projectTemplateDest
     Copy-DirectoryFilesIfMissing (Join-Path $templateRoot "Scripts") $projectScriptsDest
 
-    # Also install companion skill maui-step-guide-author if available
-    $companionSource = Join-Path $packageRoot "companion-skills\maui-step-guide-author\skills\maui-step-guide-author"
-    if (-not (Test-Path $companionSource)) {
-        $companionSource = Join-Path (Split-Path -Parent $packageRoot) "maui-step-guide-author\skills\maui-step-guide-author"
-    }
-    if (Test-Path $companionSource) {
-        $projectCompanionDest = Join-Path $projectAgents "skills\maui-step-guide-author"
-        Copy-Directory $companionSource $projectCompanionDest
-        Write-Host "Installed companion skill: maui-step-guide-author"
-    }
+    Copy-CompanionSkill (Join-Path $projectAgents "skills\maui-step-guide-author")
 
     New-Item -ItemType Directory -Force -Path $projectAgents | Out-Null
     Copy-FileIfMissing (Join-Path $templateRoot ".agents\MAUI-Agent-Mode.json") (Join-Path $projectAgents "MAUI-Agent-Mode.json")
@@ -83,6 +83,7 @@ if ($Target -eq "Project") {
 if ($Target -eq "Codex") {
     $dest = Join-Path $env:USERPROFILE ".codex\skills\maui-k12-baton-workflow"
     Copy-Directory $skillSource $dest
+    Copy-CompanionSkill (Join-Path $env:USERPROFILE ".codex\skills\maui-step-guide-author")
     Write-Host "Installed Codex skill: $dest"
     return
 }
@@ -90,6 +91,7 @@ if ($Target -eq "Codex") {
 if ($Target -eq "ClaudeCode") {
     $dest = Join-Path $env:USERPROFILE ".claude\skills\maui-k12-baton-workflow"
     Copy-Directory $skillSource $dest
+    Copy-CompanionSkill (Join-Path $env:USERPROFILE ".claude\skills\maui-step-guide-author")
     Write-Host "Installed Claude Code skill: $dest"
     Write-Host "Also copy CLAUDE.md or project-template\AGENTS.md into the target project root."
     return

@@ -1,40 +1,35 @@
-# MAUI Step Guide Author Skill Package
+# MAUI Step Guide Author
 
-This package provides the **`maui-step-guide-author`** skill, bringing the acclaimed pedagogical methodology of **Leomaris Reyes** (creator of AskXammy.com and Telerik .NET MAUI guides) into .NET MAUI student projects.
+`maui-step-guide-author` turns a .NET MAUI project into a source-grounded learning book. It supports three paths:
 
-## Key Features
+1. A build-along book for a new project.
+2. A roadmap and chapters for an existing project moving toward a user-agreed goal.
+3. A UI-replication guide with labelled HTML visual-model snapshots when an emulator is unavailable.
 
-1. **Interactive Pedagogical Intake (Phase 0)**: Brief, guided intake offering 3 distinct guide archetypes (Full 3-Phase Golden Path, Focused Screen Replication, Collections & Master-Detail) before authoring.
-2. **Dual-Block Strategy**: Symmetrical, modular block deconstruction applied equally to both the XAML View (6 layout blocks) and the C# ViewModel (6 logical code blocks).
-3. **7 Generalized Analytical Tables**: Pedagogical tabular blueprints mapping Domain Models, ViewModel State, Commands & CanExecute, XAML element-to-property bindings, Service Contracts, Loading/Feedback states, and Form Validation.
-4. **Dedicated Data Loading & Feedback**: Complete guide section for `ActivityIndicator`, `IsLoading`, derived `IsNotLoading`, `CanExecute` guardrails, and mandatory `try-catch-finally` cleanup.
-5. **Print-Perfect PDF Layout Standards**: Strict CSS and layout rules preventing table column clipping (tight padding, soft-wrapping code, scaled typography) and avoiding orphaned headings or blank pages.
-6. **HTML/Browser Visual Mockups**: Creates responsive HTML/CSS mobile mockups captured via browser agents to produce authentic visual progression diagrams.
-7. **Didactic Concept Callouts ("✏️ פינת העמקה")**: Explains tricky properties (e.g. `StringFormat` with Microsoft Learn links, negative margins, gradients, `CanExecute`) with official Microsoft Learn references.
-8. **K-12 Hebrew Standard**: All teaching and explanations written in fluent Hebrew, keeping code identifiers in clean English.
+Each chapter uses small visual and MVVM blocks connected to real project files. The final Markdown book can be compiled into HTML and PDF, with a report that rejects unresolved images, clipped/overflowing content, blank PDF pages, page-boundary text, and unreplaced placeholders.
 
-## Installation
+## Companion Contents
 
-### Into Current Project
+```text
+skills/maui-step-guide-author/
+  SKILL.md
+  references/
+  scripts/generate_book_pdf.py
+  scripts/capture_mockup_blocks.py
+  scripts/validate_learning_book.py
+  scripts/requirements-learning-book.txt
+  evals/evals.json
+```
 
-**PowerShell:**
+The parent `maui-k12-baton-workflow` package installs this companion automatically for Project, Codex, and Claude Code targets. To use it by itself, run the matching installer from this folder.
+
+## Project Tool Setup
+
 ```powershell
-.\SkillPackages\maui-step-guide-author\scripts\Install-Skill.ps1 -Target Project
+python -m pip install -r .\Scripts\Learning-Book-Requirements.txt
+python -m playwright install chromium
+python .\Scripts\Capture-Mockup-Blocks.py --mockup .\Learning\Mockups\Dashboard.html --screen Dashboard
+python .\Scripts\Generate-Learning-Book-Pdf.py
 ```
 
-**Bash:**
-```bash
-./SkillPackages/maui-step-guide-author/scripts/Install-Skill.sh --target Project
-```
-
-### Global Host Installation
-
-**Claude Code:**
-```powershell
-.\SkillPackages\maui-step-guide-author\scripts\Install-Skill.ps1 -Target ClaudeCode
-```
-
-**Codex:**
-```powershell
-.\SkillPackages\maui-step-guide-author\scripts\Install-Skill.ps1 -Target Codex
-```
+The final command writes `Learning/MAUI-Learning-Book.validation.json`; treat a failing report as a blocked publication, not as success.

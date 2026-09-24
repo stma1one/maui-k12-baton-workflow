@@ -4,7 +4,9 @@
 param(
     [string]$ProjectRoot = (Split-Path -Parent $PSScriptRoot),
     [string]$AppName = "",
-    [string]$OutputPdf = ""
+    [string]$OutputPdf = "",
+    [string]$ValidationReport = "",
+    [switch]$SkipValidation
 )
 
 $ErrorActionPreference = "Stop"
@@ -26,6 +28,12 @@ if ($AppName) {
 }
 if ($OutputPdf) {
     $argsList += @("--output-pdf", $OutputPdf)
+}
+if ($ValidationReport) {
+    $argsList += @("--validation-report", $ValidationReport)
+}
+if ($SkipValidation) {
+    $argsList += "--skip-validation"
 }
 
 Write-Host "Running PDF generation via Python..." -ForegroundColor Cyan

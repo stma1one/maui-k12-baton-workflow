@@ -87,6 +87,8 @@ dotnet test
 .\Scripts\Validate-Maui-ObsoleteApis.ps1
 .\Scripts\Validate-Maui-XamlResources.ps1
 .\Scripts\Audit-DI.ps1
+.\Scripts\Generate-Learning-Book-Pdf.ps1
+.\Scripts\Validate-Learning-Book.ps1
 ```
 
 ### macOS / Linux (Bash)
@@ -98,6 +100,10 @@ dotnet test
 ./Scripts/Validate-Maui-ObsoleteApis.sh
 ./Scripts/Validate-Maui-XamlResources.sh
 ./Scripts/Audit-DI.sh
+./Scripts/Generate-Learning-Book-Pdf.sh
+./Scripts/Validate-Learning-Book.sh
 ```
 
 If a script is missing, continue with the closest manual check and state the limitation.
+
+For an HTML/PDF learning book, install `Scripts/Learning-Book-Requirements.txt`, run the generic mockup capture tool, and require `Learning/MAUI-Learning-Book.validation.json` to pass before calling the book publication-ready.

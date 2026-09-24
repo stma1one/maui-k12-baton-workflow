@@ -18,6 +18,8 @@ Before publishing, check:
 skills/maui-k12-baton-workflow/SKILL.md
 skills/maui-k12-baton-workflow/references/student-capability-gates.md
 skills/maui-k12-baton-workflow/references/maui-specialist-guardrails.md
+companion-skills/maui-step-guide-author/skills/maui-step-guide-author/SKILL.md
+companion-skills/maui-step-guide-author/skills/maui-step-guide-author/scripts/
 project-template/AGENTS.md
 project-template/.agents/MAUI-Agent-Mode.json
 project-template/.agents/templates/phase-status-template.md
@@ -26,6 +28,7 @@ PACKAGE-MANIFEST.md
 ```
 
 The package should install cleanly into a new .NET MAUI student project.
+Validate PowerShell and Bash installation paths so each installs the companion skill and learning-book tools.
 
 ## Distribution Goal
 

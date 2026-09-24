@@ -79,6 +79,8 @@ Each stage normally ends the response and waits for the student.
 
 Goal: help the student think like an architect and product owner.
 
+When the user asks for a learning book, a guided build, or an explanation of an existing project, trigger `maui-step-guide-author` during planning. First map the current project state and agree on the learning milestones; do not wait until all code exists.
+
 Ask 1-2 focused clarification questions at a time. Prefer questions about:
 - user flow
 - screen behavior
@@ -253,13 +255,12 @@ Rules:
   - key classes, methods, properties, and attributes line-by-line
   - data flow and communication between layers (e.g. View -> ViewModel -> Service -> Model)
 - Update and enrich `Learning/MAUI-Learning-Book.md` with structured explanations, code snippets, and rationale in Hebrew (with English identifiers).
-- For UI screens, complex layouts, or screen slices, trigger the `maui-step-guide-author` skill workflow:
-  - Follow the Leomaris Reyes "Block Strategy" (The Block Strategy): deconstruct the screen into modular visual and MVVM blocks.
-  - Produce a dedicated screen guide at `Learning/Guides/<ScreenName>-Guide.md`.
-  - Create a mobile HTML mockup at `Learning/Mockups/<ScreenName>.html` and capture/render the visual block breakdown at `Learning/Images/<ScreenName>-overview.png`.
-  - Provide Deep-Dive callouts (`[!TIP]`) for visual styling techniques (negative margins for floating cards, gradients, borders, shadows).
-  - Walk through MVVM data bindings, state, and `ICommand` wiring (ensuring K-12 rules: explicit setters before `ref`, `CanExecute`, no `Page.IsBusy`).
-  - Index the new guide into `Learning/MAUI-Learning-Book.md`.
+- For learning books, UI screens, complex layouts, or screen slices, trigger the `maui-step-guide-author` skill workflow:
+  - Preserve the roadmap agreed during planning; for an existing project, document actual files and behavior rather than inventing a generic example.
+  - Deconstruct visual and MVVM changes into small source-grounded blocks, with a purpose, rationale, evidence, and a student checkpoint.
+  - Produce a dedicated guide at `Learning/Guides/<ScreenName>-Guide.md` when a screen or feature merits one, and index it in `Learning/MAUI-Learning-Book.md`.
+  - When an emulator is unavailable, create an HTML visual model at `Learning/Mockups/<ScreenName>.html`, generate labelled block snapshots, and state that the model is not emulator evidence.
+  - Generate the derived HTML/PDF book only after its image, overflow, blank-page, and page-boundary validation report passes.
 - Ask 1-2 reflection or check questions to ensure the student thoroughly understands the code before proceeding.
 
 End with:
