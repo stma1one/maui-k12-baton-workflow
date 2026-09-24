@@ -3,7 +3,9 @@ param(
     [ValidateSet("Project", "Codex", "ClaudeCode")]
     [string] $Target,
 
-    [string] $ProjectPath = "."
+    [string] $ProjectPath = ".",
+
+    [switch] $InstallLearningBookDependencies
 )
 
 $ErrorActionPreference = "Stop"
@@ -74,6 +76,16 @@ if ($Target -eq "Project") {
     Copy-FileIfMissing (Join-Path $templateRoot "Learning\Current-Phase.md") (Join-Path $projectLearningDest "Current-Phase.md")
     Copy-FileIfMissing (Join-Path $templateRoot "Learning\Student-Mastery.md") (Join-Path $projectLearningDest "Student-Mastery.md")
     Copy-FileIfMissing (Join-Path $templateRoot "Learning\MAUI-Learning-Book.md") (Join-Path $projectLearningDest "MAUI-Learning-Book.md")
+
+    $learningBookSetup = Join-Path $templateRoot "Scripts\Setup-Learning-Book.ps1"
+    if (Test-Path $learningBookSetup) {
+        $setupArguments = @{ ProjectRoot = $resolvedProject }
+        if ($InstallLearningBookDependencies) {
+            $setupArguments.InstallMissing = $true
+        }
+
+        & $learningBookSetup @setupArguments
+    }
 
     Write-Host "Installed MAUI K12 Baton Workflow into project: $resolvedProject"
     Write-Host "If AGENTS.md already existed, merge project-template\AGENTS.md manually into it."

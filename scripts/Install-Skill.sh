@@ -3,6 +3,7 @@ set -euo pipefail
 
 TARGET="${1:-Project}"
 PROJECT_PATH="${2:-.}"
+INSTALL_LEARNING_BOOK_DEPENDENCIES="${3:-}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PACKAGE_ROOT="$(dirname "$SCRIPT_DIR")"
@@ -71,6 +72,17 @@ case "$TARGET" in
         copy_file_if_missing "$TEMPLATE_ROOT/Learning/Student-Mastery.md" "$PROJECT_LEARNING_DEST/Student-Mastery.md"
         copy_file_if_missing "$TEMPLATE_ROOT/Learning/MAUI-Learning-Book.md" "$PROJECT_LEARNING_DEST/MAUI-Learning-Book.md"
 
+        if [ -n "$INSTALL_LEARNING_BOOK_DEPENDENCIES" ] && [ "$INSTALL_LEARNING_BOOK_DEPENDENCIES" != "--install-learning-book-dependencies" ]; then
+            echo "Usage: ./scripts/Install-Skill.sh Project [ProjectPath] [--install-learning-book-dependencies]" >&2
+            exit 1
+        fi
+
+        if [ "$INSTALL_LEARNING_BOOK_DEPENDENCIES" = "--install-learning-book-dependencies" ]; then
+            "$TEMPLATE_ROOT/Scripts/Setup-Learning-Book.sh" "$RESOLVED_PROJECT" --install-missing
+        else
+            "$TEMPLATE_ROOT/Scripts/Setup-Learning-Book.sh" "$RESOLVED_PROJECT"
+        fi
+
         echo "Installed MAUI K12 Baton Workflow into project: $RESOLVED_PROJECT"
         echo "If AGENTS.md already existed, merge project-template/AGENTS.md manually into it."
         ;;
@@ -90,7 +102,7 @@ case "$TARGET" in
         echo "Also copy CLAUDE.md or project-template/AGENTS.md into the target project root."
         ;;
     *)
-        echo "Usage: ./scripts/Install-Skill.sh [Project|Codex|ClaudeCode] [ProjectPath]"
+        echo "Usage: ./scripts/Install-Skill.sh [Project|Codex|ClaudeCode] [ProjectPath] [--install-learning-book-dependencies]"
         exit 1
         ;;
 esac

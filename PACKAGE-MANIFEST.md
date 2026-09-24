@@ -1,7 +1,7 @@
 # Package Manifest
 
 Package: MAUI K12 Baton Workflow Skill
-Version: 1.1.2
+Version: 1.1.3
 Status: ready-to-install
 
 ## Purpose
@@ -36,6 +36,7 @@ project-template/Learning/Student-Mastery.md
 project-template/Scripts/Audit-DI.ps1
 project-template/Scripts/Audit-DI.sh
 project-template/Scripts/Capture-Mockup-Blocks.py
+project-template/Scripts/Check-Learning-Book-Prerequisites.py
 project-template/Scripts/Generate-Learning-Book-Pdf.ps1
 project-template/Scripts/Generate-Learning-Book-Pdf.sh
 project-template/Scripts/Generate-Learning-Book-Pdf.py
@@ -49,6 +50,8 @@ project-template/Scripts/Set-Maui-Agent-Mode.ps1
 project-template/Scripts/Set-Maui-Agent-Mode.sh
 project-template/Scripts/Setup-Skills.ps1
 project-template/Scripts/Setup-Skills.sh
+project-template/Scripts/Setup-Learning-Book.ps1
+project-template/Scripts/Setup-Learning-Book.sh
 project-template/Scripts/Validate-Maui-ObsoleteApis.ps1
 project-template/Scripts/Validate-Maui-ObsoleteApis.sh
 project-template/Scripts/Validate-Maui-Version.ps1
@@ -102,12 +105,14 @@ Scripts/*.ps1
 ```text
 Audit-DI.ps1
 Capture-Mockup-Blocks.py
+Check-Learning-Book-Prerequisites.py
 Generate-Learning-Book-Pdf.ps1 / .sh / .py
 Validate-Learning-Book.ps1 / .sh / .py
 Learning-Book-Requirements.txt
 Record-Learning-Change.ps1
 Set-Maui-Agent-Mode.ps1
 Setup-Skills.ps1
+Setup-Learning-Book.ps1 / .sh
 Validate-Maui-ObsoleteApis.ps1
 Validate-Maui-Version.ps1
 Validate-Maui-XamlResources.ps1
@@ -156,14 +161,11 @@ Manual validation should confirm:
 - package paths match README instructions
 - no generated project secrets are included
 
-## 1.1.1 Feature Release Notes
+## 1.1.3 Fix Release Notes
 
-- Generalized `maui-step-guide-author` companion skill:
-  - Added Phase 0: Interactive Pedagogical User Intake with 3 guide archetypes (Full 3-Phase Golden Path, Focused Screen Replication, Collections/Master-Detail).
-  - Added Universal Dual-Block Strategy: Symmetrical, modular block breakdown for BOTH XAML Views and C# ViewModels.
-  - Added 7 Generalized Analytical Tables covering Domain Models, VM State, Commands & CanExecute, XAML Element Mapping, Service Contracts, Loading/Feedback States, and Form Validation.
-  - Added Dedicated Data Loading & Feedback section explaining `ActivityIndicator`, `IsLoading`, derived `IsNotLoading`, `CanExecute` guardrails, and mandatory `try-catch-finally` cleanup.
-  - Print-Perfect PDF Layout Standards: Resolved table column clipping with tightened cell padding, soft-wrapping table code, heading orphan prevention (`h1`-`h6`), and `.code-block` `break-inside: auto` to prevent large blank pages.
+- Added PowerShell and Bash learning-book prerequisite helpers that detect the required Python packages and Playwright Chromium runtime before taking action.
+- The default installer now reports missing prerequisites without downloading anything; explicit install switches provide consent for package and browser-runtime downloads.
+- Updated project setup scripts and README commands to use the same cross-platform check/install flow.
 
 ## 1.1.2 Fix Release Notes
 
@@ -172,6 +174,15 @@ Manual validation should confirm:
 - Added automatic learning-book quality validation for unresolved images, HTML overflow, empty PDF pages, page-boundary text, and unreplaced template tokens. The generated JSON report is required before publication.
 - Added explicit Python dependency guidance and cross-platform wrappers for generation and validation.
 - Fixed PowerShell, Bash, project, Codex, and Claude Code installation paths to distribute the companion skill and its tools consistently.
+
+## 1.1.1 Feature Release Notes
+
+- Generalized `maui-step-guide-author` companion skill:
+  - Added Phase 0: Interactive Pedagogical User Intake with 3 guide archetypes (Full 3-Phase Golden Path, Focused Screen Replication, Collections/Master-Detail).
+  - Added Universal Dual-Block Strategy: Symmetrical, modular block breakdown for BOTH XAML Views and C# ViewModels.
+  - Added 7 Generalized Analytical Tables covering Domain Models, VM State, Commands & CanExecute, XAML Element Mapping, Service Contracts, Loading/Feedback States, and Form Validation.
+  - Added Dedicated Data Loading & Feedback section explaining `ActivityIndicator`, `IsLoading`, derived `IsNotLoading`, `CanExecute` guardrails, and mandatory `try-catch-finally` cleanup.
+  - Print-Perfect PDF Layout Standards: Resolved table column clipping with tightened cell padding, soft-wrapping table code, heading orphan prevention (`h1`-`h6`), and `.code-block` `break-inside: auto` to prevent large blank pages.
 
 ## 1.1.0 Feature Release Notes
 
