@@ -8,6 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PACKAGE_ROOT="$(dirname "$SCRIPT_DIR")"
 SKILL_SOURCE="$PACKAGE_ROOT/skills/maui-k12-baton-workflow"
 TEMPLATE_ROOT="$PACKAGE_ROOT/project-template"
+COMPANION_SOURCE="$PACKAGE_ROOT/companion-skills/maui-step-guide-author/skills/maui-step-guide-author"
 
 if [ ! -d "$SKILL_SOURCE" ]; then
     echo "Error: Cannot find skill source: $SKILL_SOURCE" >&2
@@ -26,12 +27,20 @@ copy_file_if_missing() {
     fi
 }
 
+copy_companion_skill() {
+    local destination="$1"
+    if [ -d "$COMPANION_SOURCE" ]; then
+        mkdir -p "$destination"
+        cp -R "$COMPANION_SOURCE/"* "$destination/"
+        echo "Installed companion skill: maui-step-guide-author"
+    fi
+}
+
 case "$TARGET" in
     Project)
         RESOLVED_PROJECT="$(cd "$PROJECT_PATH" && pwd)"
 
         copy_file_if_missing "$TEMPLATE_ROOT/AGENTS.md" "$RESOLVED_PROJECT/AGENTS.md"
-        copy_file_if_missing "$TEMPLATE_ROOT/CLAUDE.md" "$RESOLVED_PROJECT/CLAUDE.md"
 
         PROJECT_AGENTS="$RESOLVED_PROJECT/.agents"
         PROJECT_SKILL_DEST="$PROJECT_AGENTS/skills/maui-k12-baton-workflow"
@@ -41,6 +50,7 @@ case "$TARGET" in
 
         mkdir -p "$PROJECT_SKILL_DEST"
         cp -R "$SKILL_SOURCE/"* "$PROJECT_SKILL_DEST/"
+        copy_companion_skill "$PROJECT_AGENTS/skills/maui-step-guide-author"
 
         mkdir -p "$PROJECT_TEMPLATE_DEST"
         cp -R "$TEMPLATE_ROOT/.agents/templates/"* "$PROJECT_TEMPLATE_DEST/"
@@ -68,12 +78,14 @@ case "$TARGET" in
         DEST="$HOME/.codex/skills/maui-k12-baton-workflow"
         mkdir -p "$DEST"
         cp -R "$SKILL_SOURCE/"* "$DEST/"
+        copy_companion_skill "$HOME/.codex/skills/maui-step-guide-author"
         echo "Installed Codex skill: $DEST"
         ;;
     ClaudeCode)
         DEST="$HOME/.claude/skills/maui-k12-baton-workflow"
         mkdir -p "$DEST"
         cp -R "$SKILL_SOURCE/"* "$DEST/"
+        copy_companion_skill "$HOME/.claude/skills/maui-step-guide-author"
         echo "Installed Claude Code skill: $DEST"
         echo "Also copy CLAUDE.md or project-template/AGENTS.md into the target project root."
         ;;

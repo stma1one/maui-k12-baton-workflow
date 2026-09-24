@@ -143,15 +143,16 @@ For each meaningful code change, document:
 - how to verify
 - Do not write generic textbook lessons. Teach the actual change.
 
-### Step-by-Step UI Guides (Leomaris Reyes Block Strategy)
+### Step-by-Step Learning Books and UI Guides
 
-When documenting a screen, page, or UI feature, use the `maui-step-guide-author` methodology:
-- Follow the 6-part structure: Hook & Design Goal -> Meta-Frame -> Namespaces -> Block Strategy (Visual mockups, Grid backbone, individual blocks) -> Deep-Dive Callouts -> MVVM Wiring.
-- Do not dump monolithic XAML files. Provide modular snippets with placeholders (`<!-- Next block goes here -->`).
-- Create an HTML mobile mockup at `Learning/Mockups/<ScreenName>.html` and capture `Learning/Images/<ScreenName>-overview.png`.
-- Highlight visual patterns: negative margins for floating cards, gradient brushes, rounded borders, shadows, and accessible layouts.
-- Keep explanations in Hebrew; keep XAML elements, C# identifiers, and commands in English.
-- Save each screen guide at `Learning/Guides/<ScreenName>-Guide.md` and link it in `Learning/MAUI-Learning-Book.md`.
+When documenting a screen, page, UI feature, or existing-project learning journey, use the `maui-step-guide-author` methodology:
+- For an existing project, map current files and behavior with the student before proposing milestones to the end goal.
+- Do not dump monolithic XAML or ViewModel files. Provide small source-grounded blocks with their file/layer, rationale, evidence, and a student checkpoint.
+- Create an HTML visual model at `Learning/Mockups/<ScreenName>.html` only when it teaches the screen composition; label it as a model rather than emulator evidence.
+- Capture the marked overview and individual blocks with `Capture-Mockup-Blocks.py`, then embed the generated images in the matching guide sections.
+- Highlight visual patterns only when the actual screen uses them: layout boundaries, gradients, borders, shadows, accessibility, bindings, loading feedback, or commands.
+- Match the student's working language for explanations; preserve XAML elements, C# identifiers, and commands in English.
+- Save each screen guide at `Learning/Guides/<ScreenName>-Guide.md`, index it in `Learning/MAUI-Learning-Book.md`, and require the generated book validation report to pass before publication.
 
 ## Student Review Tone
 

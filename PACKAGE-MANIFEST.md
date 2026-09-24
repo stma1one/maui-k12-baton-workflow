@@ -1,7 +1,7 @@
 # Package Manifest
 
 Package: MAUI K12 Baton Workflow Skill
-Version: 1.1.1
+Version: 1.1.2
 Status: ready-to-install
 
 ## Purpose
@@ -22,7 +22,11 @@ CLAUDE.md
 skills/maui-k12-baton-workflow/SKILL.md
 skills/maui-k12-baton-workflow/references/maui-specialist-guardrails.md
 skills/maui-k12-baton-workflow/references/student-capability-gates.md
-companion-skills/maui-step-guide-author/ (Modular Block Strategy UI guides)
+companion-skills/maui-step-guide-author/ (Source-grounded learning-book companion skill)
+companion-skills/maui-step-guide-author/skills/maui-step-guide-author/SKILL.md
+companion-skills/maui-step-guide-author/skills/maui-step-guide-author/references/
+companion-skills/maui-step-guide-author/skills/maui-step-guide-author/scripts/
+companion-skills/maui-step-guide-author/skills/maui-step-guide-author/evals/evals.json
 project-template/AGENTS.md
 project-template/.agents/MAUI-Agent-Mode.json
 project-template/.agents/templates/phase-status-template.md
@@ -33,7 +37,12 @@ project-template/Scripts/Audit-DI.ps1
 project-template/Scripts/Audit-DI.sh
 project-template/Scripts/Capture-Mockup-Blocks.py
 project-template/Scripts/Generate-Learning-Book-Pdf.ps1
+project-template/Scripts/Generate-Learning-Book-Pdf.sh
 project-template/Scripts/Generate-Learning-Book-Pdf.py
+project-template/Scripts/Validate-Learning-Book.ps1
+project-template/Scripts/Validate-Learning-Book.sh
+project-template/Scripts/Validate-Learning-Book.py
+project-template/Scripts/Learning-Book-Requirements.txt
 project-template/Scripts/Record-Learning-Change.ps1
 project-template/Scripts/Record-Learning-Change.sh
 project-template/Scripts/Set-Maui-Agent-Mode.ps1
@@ -92,6 +101,10 @@ Scripts/*.ps1
 
 ```text
 Audit-DI.ps1
+Capture-Mockup-Blocks.py
+Generate-Learning-Book-Pdf.ps1 / .sh / .py
+Validate-Learning-Book.ps1 / .sh / .py
+Learning-Book-Requirements.txt
 Record-Learning-Change.ps1
 Set-Maui-Agent-Mode.ps1
 Setup-Skills.ps1
@@ -151,6 +164,14 @@ Manual validation should confirm:
   - Added 7 Generalized Analytical Tables covering Domain Models, VM State, Commands & CanExecute, XAML Element Mapping, Service Contracts, Loading/Feedback States, and Form Validation.
   - Added Dedicated Data Loading & Feedback section explaining `ActivityIndicator`, `IsLoading`, derived `IsNotLoading`, `CanExecute` guardrails, and mandatory `try-catch-finally` cleanup.
   - Print-Perfect PDF Layout Standards: Resolved table column clipping with tightened cell padding, soft-wrapping table code, heading orphan prevention (`h1`-`h6`), and `.code-block` `break-inside: auto` to prevent large blank pages.
+
+## 1.1.2 Fix Release Notes
+
+- Made the companion skill source-grounded for new projects, existing-project learning books, and UI-replication guides; roadmap decisions now happen during planning instead of only after implementation.
+- Replaced the hard-coded screenshot capture script with a selector-based HTML visual-model tool that writes an overview, individual block snapshots, and a manifest for any screen.
+- Added automatic learning-book quality validation for unresolved images, HTML overflow, empty PDF pages, page-boundary text, and unreplaced template tokens. The generated JSON report is required before publication.
+- Added explicit Python dependency guidance and cross-platform wrappers for generation and validation.
+- Fixed PowerShell, Bash, project, Codex, and Claude Code installation paths to distribute the companion skill and its tools consistently.
 
 ## 1.1.0 Feature Release Notes
 
