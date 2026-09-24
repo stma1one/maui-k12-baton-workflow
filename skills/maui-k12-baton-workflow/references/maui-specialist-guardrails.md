@@ -122,7 +122,9 @@ In Student Capability Mode, also verify:
 - concept-gate evidence exists
 - ownership split was chosen before execution
 - agent-owned and student-owned tasks are recorded
-- `Learning/Student-Mastery.md` reflects demonstrated understanding, not agent-generated code
+- `Learning/Student-Mastery.md` keeps theory evidence separate from applied coding evidence
+- no agent-generated, copied, or merely explained code is recorded as applied coding evidence
+- agent-owned routine work is limited to concepts recorded with both evidence tracks and `Routine eligibility: Yes`
 
 ## Learning Documentation
 

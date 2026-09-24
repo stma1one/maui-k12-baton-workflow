@@ -26,6 +26,8 @@ PLANNING_COACH
 
 The student receives one cognitive step at a time.
 
+The workflow treats theory and coding ability as separate evidence. Explaining a concept authorizes guided practice; only verified student-authored coding evidence plus theory evidence makes that concept routine-eligible for agent-owned repetition.
+
 ## Package Layout
 
 ```text
@@ -37,7 +39,8 @@ maui-k12-baton-workflow/
 |-- skills/
 |   `-- maui-k12-baton-workflow/
 |       |-- SKILL.md
-|       `-- references/
+|       |-- references/
+|       `-- evals/evals.json
 |           `-- maui-specialist-guardrails.md
 |-- project-template/
 |   |-- AGENTS.md
@@ -240,10 +243,10 @@ In Student Capability Mode, the agent must:
 - teach only the next concept needed for the approved slice
 - require student reasoning before implementation, not just "approve" or "continue"
 - treat "I do not know", "do it", "my teacher said it is fine", and similar answers as stuck signals that need hints, rephrasing, or a quick lesson
-- classify concepts as crucial, medium, or routine based on project risk and recorded mastery
+- classify concepts as crucial, medium, or routine based on project risk and two-track recorded mastery
 - default to student-owned core logic with agent scaffolding, hints, and review
-- offer routine work as optional practice before the agent handles it
-- allow full agent implementation only when unmastered crucial concepts are not being bypassed
+- offer routine work as optional practice before the agent handles it, and only when the relevant concept has verified theory evidence, student-authored coding evidence, and `Routine eligibility: Yes`
+- allow full agent implementation only when unmastered crucial concepts are not being bypassed and every concept the agent would own is routine-eligible
 - explain the test plan and ask the student to approve intended coverage before treating tests as complete
 - run verification before declaring PASS
 - update learning artifacts when meaningful changes are made
@@ -255,8 +258,14 @@ Update the workflow and companion source together:
 ```text
 skills/maui-k12-baton-workflow/SKILL.md
 skills/maui-k12-baton-workflow/references/maui-specialist-guardrails.md
+skills/maui-k12-baton-workflow/references/student-capability-gates.md
+skills/maui-k12-baton-workflow/evals/evals.json
+AGENTS.md
+CLAUDE.md
 project-template/AGENTS.md
 project-template/.agents/templates/phase-status-template.md
+project-template/Learning/Current-Phase.md
+project-template/Learning/Student-Mastery.md
 project-template/Scripts/*.ps1 and *.sh
 companion-skills/maui-step-guide-author/skills/maui-step-guide-author/
 ```
@@ -273,6 +282,8 @@ Before publishing:
 - every waiting state forces a stop
 - bypass answers cannot pass concept or ownership gates
 - ownership negotiation happens before execution
+- theory evidence and applied coding evidence are recorded separately in `Student-Mastery.md`
+- agent-generated, copied, approved, or merely explained code cannot make a concept routine-eligible
 - README install steps still match the folder layout
 
 ## Creator & Attribution

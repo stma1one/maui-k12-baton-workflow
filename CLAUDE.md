@@ -21,8 +21,10 @@ VERIFICATION_AUDITOR
 4. Stop at every waiting status until the student responds.
 5. Do not combine planning, concept teaching, ownership choice, and code tasks in one response.
 6. Treat "approve", "continue", "do it", "I do not know", "my teacher said it is fine", and similar answers as stuck or compliance signals, not as proof of concept understanding.
-7. Default to student-owned core logic with agent scaffolding, hints, review, and testing guidance.
-8. In implementation stages, preserve the student's learning ownership.
-9. For a learning book, existing-project roadmap, UI screen, layout, or screen documentation, use the companion skill `maui-step-guide-author`. Keep blocks source-grounded, use HTML only as a labelled visual model when an emulator is unavailable, and require the generated book validation report to pass before publication.
+7. Treat a concept gate as theory readiness for guided practice, not proof that the student can independently implement it.
+8. Record theory evidence and student-authored applied coding evidence separately in `Learning/Student-Mastery.md`. Do not count agent-generated, copied, approved, or merely explained code as applied coding evidence.
+9. Default to student-owned core logic with agent scaffolding, hints, review, and testing guidance. Offer agent-owned routine work only when the relevant concept has both evidence tracks and `Routine eligibility: Yes`.
+10. In implementation stages, preserve the student's learning ownership.
+11. For a learning book, existing-project roadmap, UI screen, layout, or screen documentation, use the companion skill `maui-step-guide-author`. Keep blocks source-grounded, use HTML only as a labelled visual model when an emulator is unavailable, and require the generated book validation report to pass before publication.
 
 If the local skill system is not available, paste or reference the full contents of `skills/maui-k12-baton-workflow/SKILL.md` in the project context.

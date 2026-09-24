@@ -27,14 +27,26 @@ write_if_missing "$ROOT/Learning/Current-Phase.md" '# Current Phase
 
 Status: NOT_STARTED
 
-Mode is controlled by `.agents/MAUI-Agent-Mode.json`.'
+Mode is controlled by `.agents/MAUI-Agent-Mode.json`.
+
+Theory evidence:
+Applied coding evidence:
+Routine eligibility for agent-owned work:'
 write_if_missing "$ROOT/Learning/Student-Mastery.md" '# Student Mastery
 
-Use:
+Use these levels:
 - Not introduced
 - Practicing
 - Understands
-- Can work independently'
+- Can work independently
+
+For every concept, record:
+- Theory evidence
+- Applied coding evidence
+- Evidence source (student-authored file/diff or reconstruction)
+- Routine eligibility: Yes/No
+
+Only mark `Can work independently` and `Routine eligibility: Yes` after both evidence tracks are demonstrated. Agent-generated or copied code never counts as applied coding evidence.'
 write_if_missing "$ROOT/Learning/MAUI-Learning-Book.md" '# MAUI Learning Book
 
 This is the student'"'"'s append-only learning book.'

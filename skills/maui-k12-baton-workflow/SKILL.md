@@ -49,7 +49,7 @@ When `studentCapabilityMode=true`, optimize for:
 - one concept at a time
 - short student-facing prompts
 - real planning before implementation
-- evidence that the student can explain the chosen approach
+- evidence that the student can explain the chosen approach and apply it in code
 - more student-owned core work than agent-owned work
 - testing as a taught skill, not a hidden agent chore
 
@@ -135,9 +135,9 @@ Teach only what is needed now. Keep it focused.
 First classify each concept needed for the slice:
 - Crucial: core architecture, MVVM ownership, data flow, commands, validation, persistence/API behavior, async/error handling, tests, or any pattern the student will need to change independently.
 - Medium: useful syntax, UI composition, routine binding, or repeated wiring that the student has not fully mastered yet.
-- Routine: boilerplate, repeated configuration, or a pattern already evidenced in `Learning/Student-Mastery.md`.
+- Routine: boilerplate, repeated configuration, or a pattern with verified theory and student-authored coding evidence in `Learning/Student-Mastery.md`.
 
-Weights adjust over time. A first exposure to configuration, boilerplate, test structure, DI, navigation, or a helper pattern is not routine; the student must understand what it does before it can become lower weight in later slices.
+Weights adjust over time. A first exposure to configuration, boilerplate, test structure, DI, navigation, or a helper pattern is not routine. A concept gate proves theory readiness for guided practice; it does not by itself make work routine or authorize the agent to take it over.
 
 Ask 1-2 applied or Socratic questions, such as:
 - Which class should own this state, and why?
@@ -164,7 +164,7 @@ For crucial concepts, require stronger evidence before implementation:
 
 For medium concepts, one clear project-specific answer is enough.
 
-For routine concepts, a brief confirmation or practice choice is enough only when `Learning/Student-Mastery.md` already shows the student understands that concept or can work independently.
+For routine concepts, a brief confirmation or practice choice is enough only when `Learning/Student-Mastery.md` records both theory evidence and student-authored coding evidence for that concept.
 
 If the student is stuck or gives a bypass answer:
 - acknowledge it briefly
@@ -186,7 +186,7 @@ Status: CONCEPT_GATE_PENDING
 
 Goal: let the student choose the split before execution.
 
-Before proposing the split, check `Learning/Student-Mastery.md` when it exists and use the current slice's crucial/medium/routine classification. Also update `Learning/Current-Phase.md` with what the student needs to understand for this slice when that file exists.
+Before proposing the split, check `Learning/Student-Mastery.md` when it exists. For every concept the agent might treat as routine, verify its theory evidence, applied coding evidence, and routine eligibility; an explanation or agent-generated code alone is not enough. Also update `Learning/Current-Phase.md` with what the student needs to understand and practise for this slice when that file exists.
 
 Present the next slice as a small change list:
 
@@ -201,14 +201,14 @@ Planned changes:
 Choose one:
 1. Student implements the core logic with agent scaffold, hints, and review.
 2. Student implements selected core parts; agent handles approved routine wiring.
-3. Agent implements only routine or already-mastered parts; student explains and approves the test plan.
+3. Agent implements only parts whose relevant concepts are recorded as routine-eligible; student explains and approves the test plan.
 ```
 
 Default to option 1 in Student Capability Mode. The agent should own setup, repetitive wiring, documentation maintenance, and verification when appropriate, but the student should own the code that exercises crucial concepts.
 
-Offer routine work as optional practice. If the student has already shown understanding and does not want routine practice, the agent may do that routine work.
+Offer routine work as optional practice. The agent may do it only after the student has shown both theory and independent coding evidence for the relevant concept and declines that practice.
 
-Do not offer "agent implements the whole agreed slice" in Student Capability Mode when the slice contains crucial concepts the student has not passed. A student request such as "do it" or "continue" cannot override this. The fallback for difficult code is a guided step-by-step implementation with small clarification questions and checkpoints.
+Do not offer "agent implements the whole agreed slice" in Student Capability Mode when the slice contains crucial concepts without both evidence tracks. A student request such as "do it" or "continue" cannot override this. The fallback for difficult code is a guided step-by-step implementation with small clarification questions and checkpoints.
 
 For testing, the agent may write or run tests, but must first explain the test plan and ask the student to approve the intended coverage. The student should practice identifying edge cases over time.
 
@@ -233,7 +233,7 @@ Rules:
 - Do not convert a student-owned task into agent-owned code because the student says "continue", "approve", "do it", or cites outside approval.
 - Do not add unrelated refactors.
 - Update `Learning/Current-Phase.md` when that file exists.
-- Update `Learning/Student-Mastery.md` only when the student has shown evidence, not because code was generated.
+- Update `Learning/Student-Mastery.md` only when the student has shown the named evidence; agent-generated code and a student approval of it are never applied-coding evidence.
 - If the student still owns a task, stop with `WAITING_FOR_STUDENT`.
 - When execution of the slice is completed, proceed to `CODE_LEARNING_REVIEWER`.
 
@@ -335,6 +335,9 @@ Student decisions so far
 Open planning questions
 Approved plan
 Concept gate
+Theory evidence
+Applied coding evidence
+Routine eligibility
 Ownership split
 Agent-owned changes
 Student-owned tasks
@@ -390,14 +393,21 @@ Understands
 Can work independently
 ```
 
-Do not mark a concept as understood merely because the agent generated code. The student must show understanding through the concept gate, code review, or explanation.
+Track two independent evidence fields for each concept:
+- Theory evidence: the student explains purpose, data flow, choices, or predicted behavior in their own words.
+- Applied coding evidence: the student independently authors or materially modifies a meaningful code block, then explains and verifies it.
+
+Agent-generated code, copied code, approval, or an explanation of code written by the agent can support theory evidence but never applied coding evidence.
 
 Recommended evidence fields:
 
 ```text
 Concept:
 Level:
-Evidence:
+Theory evidence:
+Applied coding evidence:
+Evidence source (student-authored file/diff or reconstruction):
+Routine eligibility: Yes/No
 Last demonstrated:
 Needs practice:
 ```
@@ -405,8 +415,8 @@ Needs practice:
 Use mastery to adjust workload:
 - Not introduced: teach briefly, require evidence, and make the student own the important part.
 - Practicing: scaffold and guide, then ask the student to complete or explain the core part.
-- Understands: offer practice; the agent may handle routine repetition if the student declines.
-- Can work independently: let the student drive or review, and use the agent for speed, tests, and edge-case thinking.
+- Understands: theory evidence is clear, but applied coding evidence may still be missing; keep related core work student-owned.
+- Can work independently: both evidence tracks are verified for the concept. Only then mark `Routine eligibility: Yes` and offer agent-owned repetition.
 
 Do not downgrade a concept silently. If evidence is weak in a later session, mark `Needs practice` or keep the current level and ask a smaller checkpoint.
 
