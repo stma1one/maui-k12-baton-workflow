@@ -66,6 +66,18 @@ PLANNING_COACH
 - Keep learning documentation in Hebrew when the student works in Hebrew.
 - Run build/tests/validation before declaring PASS.
 
+
+## SQLite Package Rule
+
+For SQLite student projects, the only approved data-access stack is:
+- `sqlite-net-pcl` for basic CRUD, following https://learn.microsoft.com/en-us/dotnet/maui/data-cloud/database-sqlite?view=net-maui-10.0
+- `SQLiteNetExtensions` added on top of `sqlite-net-pcl` only when one-to-one, one-to-many, or many-to-many relationships are required. Use the corresponding guides:
+  - https://www.codejourney.net/sqlite-net-extensions-one-to-one-relationships/
+  - https://www.codejourney.net/sqlite-net-extensions-one-to-many-relationships/
+  - https://www.codejourney.net/sqlite-net-extensions-many-to-many-relationships/
+
+Do not use EF Core SQLite, `Microsoft.Data.Sqlite`, `System.Data.SQLite`, Dapper, or any alternative SQLite provider/ORM/wrapper. Keep persistence in Services/Repositories, use async APIs where supported, and verify package versions and exact relationship APIs before coding. Never silently deviate from this approved stack.
+
 ## Expected Project Structure
 
 ```text
