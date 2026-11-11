@@ -37,6 +37,26 @@ However, you MUST actively query official documentation (Microsoft Learn for MAU
    - When encountering native symbol collisions, P/Invoke failures, or platform sandbox exceptions.
 
 
+
+## Approved SQLite Stack (Non-Negotiable)
+
+For any student project that persists data in SQLite, use only:
+
+1. `sqlite-net-pcl` for basic CRUD operations. Follow Microsoft's MAUI SQLite guide: https://learn.microsoft.com/en-us/dotnet/maui/data-cloud/database-sqlite?view=net-maui-10.0
+2. `SQLiteNetExtensions` in addition to `sqlite-net-pcl` only when the model needs relationships:
+   - One-to-one: https://www.codejourney.net/sqlite-net-extensions-one-to-one-relationships/
+   - One-to-many: https://www.codejourney.net/sqlite-net-extensions-one-to-many-relationships/
+   - Many-to-many: https://www.codejourney.net/sqlite-net-extensions-many-to-many-relationships/
+
+Do not use or add Entity Framework Core SQLite, `Microsoft.Data.Sqlite`, `System.Data.SQLite`, Dapper, another SQLite ORM/provider, or a convenience wrapper. Do not replace `sqlite-net-pcl` with `SQLiteNetExtensions`; the extension package is additive.
+
+Implementation rules:
+- Keep database operations in a Service/Repository, never in a View or ViewModel.
+- Use async APIs for database operations where supported; do not block with `.Result` or `.Wait()`.
+- Verify package IDs, current versions, supported target frameworks, and exact APIs/attributes against the linked documentation and NuGet package documentation before implementation.
+- For relationships, explicitly identify the cardinality and verify the corresponding extension attributes and loading/saving APIs. Do not assume that relationship loading happens automatically.
+- If the approved packages do not support a requirement, stop and explain the limitation. Do not silently add another library or provider.
+
 ## XAML UI
 
 - For Hebrew-first apps, set `FlowDirection="RightToLeft"` at Shell or page level. Do not force RTL onto URLs, emails, code, or identifiers.
