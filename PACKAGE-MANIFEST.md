@@ -1,7 +1,7 @@
 # Package Manifest
 
 Package: MAUI K12 Baton Workflow Skill
-Version: 1.1.4
+Version: 1.1.5
 Status: ready-to-install
 
 ## Purpose
@@ -161,6 +161,11 @@ Manual validation should confirm:
 - install script parses in PowerShell
 - package paths match README instructions
 - no generated project secrets are included
+
+## 1.1.5 Fix Release Notes
+
+- Standardized SQLite student projects on `sqlite-net-pcl` for basic CRUD and `SQLiteNetExtensions` for optional one-to-one, one-to-many, and many-to-many relationships.
+- Explicitly prohibited alternative SQLite providers, ORMs, and wrappers, and added documentation/API verification requirements.
 
 ## 1.1.4 Fix Release Notes
 
