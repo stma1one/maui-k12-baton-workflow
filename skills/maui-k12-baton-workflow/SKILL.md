@@ -436,6 +436,21 @@ Use modern student-friendly MAUI patterns:
 - Use `CanExecute` only when a command has a meaningful execution condition.
 - Verify against official docs at high-friction triggers (native/storage NuGet packages, MAUI-specific platform controls like WebView/Camera, and cloud SDKs like Firebase/Firestore).
 
+
+## SQLite Package Policy (Required)
+
+For student projects that use SQLite, use only this two-package approach:
+
+- **Basic CRUD (create, read, update, delete):** use the NuGet package `sqlite-net-pcl` (SQLite-net), following Microsoft's .NET MAUI SQLite guidance: https://learn.microsoft.com/en-us/dotnet/maui/data-cloud/database-sqlite?view=net-maui-10.0
+- **Relationships:** when the data model requires one-to-one, one-to-many, or many-to-many relationships, add the NuGet package `SQLiteNetExtensions`. Use the relevant guides:
+  - One-to-one: https://www.codejourney.net/sqlite-net-extensions-one-to-one-relationships/
+  - One-to-many: https://www.codejourney.net/sqlite-net-extensions-one-to-many-relationships/
+  - Many-to-many: https://www.codejourney.net/sqlite-net-extensions-many-to-many-relationships/
+
+Do not introduce alternative SQLite data-access packages, providers, ORMs, or wrappers, including Entity Framework Core SQLite, `Microsoft.Data.Sqlite`, `System.Data.SQLite`, or Dapper. Do not add a second abstraction/library for convenience. `SQLiteNetExtensions` supplements `sqlite-net-pcl`; it does not replace it.
+
+Keep database access behind the Service/Repository layer, keep database operations asynchronous where the package API supports it, and keep SQL/persistence details out of Views and ViewModels. Before adding either package or using an extension API, verify the current NuGet package identity/version and API against the linked documentation and package documentation. Do not guess method names, attributes, relationship annotations, or package compatibility. If a requested feature cannot be implemented with this approved stack, explain the limitation and ask before proposing any deviation.
+
 ## Graduated Help
 
 If the student is stuck:
